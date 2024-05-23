@@ -122,6 +122,9 @@ section {
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,.09);
 	height: 70px;
 	max-height: 70px;
+	display: flex;
+	align-items: center;
+	padding: 0 20px; /* Add some padding for spacing */
 }
 
 .navbar-toggler {
@@ -154,8 +157,42 @@ section {
 }
 
 .nav-right {
-	float: right;
+	margin-left: auto; /* Use margin-left: auto to push nav items to the right */
 }
+
+/* Style for mobile logo */
+.nav-logo-mobile {
+	width: 300px; /* Increased width */
+	height: auto;
+	display: inline-block;
+	margin-left: 15px; /* Adjust the margin as needed */
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+/* Style for desktop logo */
+.nav-logo-desktop {
+	width: 350px; /* Increased width */
+	height: auto;
+	display: inline-block;
+	margin-right: 20px; /* Adjust the margin as needed */
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+/* Adjust navbar brand alignment */
+.navbar-brand {
+	display: flex;
+	align-items: center;
+}
+
+/* Adjust padding and margin of navbar items to ensure proper alignment */
+.navbar-nav .nav-item .nav-link {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+
 
 /* ==============================================
    3. Buttons
@@ -463,6 +500,9 @@ footer {
 	background-color: #292c31;
     padding: 60px 0;
     color: #62656a;
+	text-align: center;
+	margin-left: auto;
+    margin-right: auto;
 }
 
 footer h5 {
@@ -510,6 +550,7 @@ footer i:hover {
 footer small {
 	color: #62656a;
 	float: right;
+	text-align: center;
 }
 
 .external-links {
