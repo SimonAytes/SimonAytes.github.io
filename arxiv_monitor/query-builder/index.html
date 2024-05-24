@@ -66,6 +66,7 @@
             border-radius: 4px;
             padding: 10px;
             background-color: #f9f9f9;
+            flex-wrap: nowrap;
         }
         .query-part select, .query-part input {
             margin-right: 10px;
@@ -74,6 +75,7 @@
             border-radius: 4px;
             box-sizing: border-box;
             flex-grow: 1;
+            min-width: 0; /* Allow the element to shrink */
         }
         .query-part button {
             padding: 10px;
@@ -231,9 +233,8 @@
             </div>
         </div>
         <div class="results" id="results"></div>
-        <br>
-        <div class="note" style="text-align: center;">
-            <small>If you encounter any issues, please email <a href="mailto:arxiv.monitor@gmail.com">arxiv.monitor@gmail.com</a>.<br>Created by <a href="https://www.saytes.io" target="_blank">Simon Aytes</a>.</small>
+        <div class="note">
+            <p>If you encounter any issues, please email <a href="mailto:arxiv.monitor@gmail.com">arxiv.monitor@gmail.com</a>.<br>Created by <a href="https://www.saytes.io">Simon Aytes</a>.</p>
         </div>
     </div>
     <script>
