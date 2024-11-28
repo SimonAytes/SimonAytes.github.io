@@ -9,7 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
-**🔗 Downloads:** [ [Resume](/files/SimonAytes_Resume.pdf) ]
+**🔗 Downloads:** [ [Resume (EN)](/files/SimonAytes_Resume.pdf) ] [ [Resume (한국어)](/files/SimonAytes_Resume_KR.pdf) ]
 
 ## 🎓 Education  
 - **M.S. in Artificial Intelligence**  

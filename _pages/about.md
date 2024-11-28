@@ -9,7 +9,7 @@ redirect_from:
 
 I am a graduate student at the KAIST Graduate School of AI in Seoul, South Korea, where I work as a researcher at the [MLAI Lab](https://www.mlai-kaist.com/) under the guidance of [Dr. Hwang Sung Ju](http://www.sungjuhwang.com/). My goal is to leverage the transformative potential of AI to address real-world challenges, advancing sustainable and ethical innovation for a better future.
 
-**🔗 Downloads:** [ [Resume](/files/SimonAytes_Resume.pdf) ]
+**🔗 Downloads:** [ [Resume (EN)](/files/SimonAytes_Resume.pdf) ] [ [Resume (한국어)](/files/SimonAytes_Resume_KR.pdf) ]
 
 
 ## 🔍 **Research Interests**  
