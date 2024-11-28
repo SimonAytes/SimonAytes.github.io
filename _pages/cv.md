@@ -9,6 +9,8 @@ redirect_from:
 
 {% include base_path %}
 
+**🔗 Downloads:** [ [Resume](/files/SimonAytes_Resume.pdf) ]
+
 ## 🎓 Education  
 - **M.S. in Artificial Intelligence**  
   🏫 *Korea Advanced Institute of Science and Technology (KAIST)* — Seoul, South Korea *(Expected 2026)*  
