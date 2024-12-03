@@ -33,7 +33,7 @@ Through these experiences, I’ve cultivated a unique skill set that blends tech
 
 ## 📰 **News**
 
-- **[Nov. 2024]** 📄 *New preprint is out*: Check out [**AURA**](/files/arxiv_AURA_Preprint.pdf)!
+<!-- - **[Nov. 2024]** 📄 *New preprint is out*: Check out [**AURA**](/files/arxiv_AURA_Preprint.pdf)! -->
 - **[Feb. 2024]** 🎓 *Started MS Program*: Excited to start my MS at the [**KAIST MLAI Lab**](https://www.mlai-kaist.com/)!
 
 
