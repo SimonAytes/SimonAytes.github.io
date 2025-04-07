@@ -1,0 +1,563 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>첫 번째 SQL 쿼리 작성하기 (엑셀 예제 포함) - Introduction to SQL for Excel Users</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to SQL for Excel Users</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-9-첫-번째-sql-쿼리-작성하기-엑셀-예제-포함"><a class="header" href="#chapter-9-첫-번째-sql-쿼리-작성하기-엑셀-예제-포함">Chapter 9: 첫 번째 SQL 쿼리 작성하기 (엑셀 예제 포함)</a></h1>
+<h2 id="시각화-excel-테이블--sql-테이블"><a class="header" href="#시각화-excel-테이블--sql-테이블">시각화: Excel 테이블 → SQL 테이블</a></h2>
+<p>SQL 쿼리를 작성하기 전에, 여러분이 익숙한 Excel 테이블과 우리가 쿼리할 SQL 테이블 간의 시각적 연관을 명확히 해봅시다.</p>
+<p>다음과 같은 고객 정보가 담긴 Excel 워크시트를 가지고 있다고 상상해 보세요:</p>
+<div class="table-wrapper"><table><thead><tr><th>Customer_ID</th><th>First_Name</th><th>Last_Name</th><th>Email</th><th>City</th><th>State</th></tr></thead><tbody>
+<tr><td>1</td><td>John</td><td>Smith</td><td>john.smith@email.com</td><td>Chicago</td><td>IL</td></tr>
+<tr><td>2</td><td>Sarah</td><td>Johnson</td><td>sarah.j@email.com</td><td>New York</td><td>NY</td></tr>
+<tr><td>3</td><td>Michael</td><td>Williams</td><td>mw@email.com</td><td>Los Angeles</td><td>CA</td></tr>
+<tr><td>4</td><td>Emma</td><td>Brown</td><td>emma.b@email.com</td><td>Houston</td><td>TX</td></tr>
+<tr><td>5</td><td>James</td><td>Jones</td><td>james.jones@email.com</td><td>Phoenix</td><td>AZ</td></tr>
+</tbody></table>
+</div>
+<p>SQL 데이터베이스에서는 이 테이블이 <code>customers</code>라는 이름의 테이블로 동일한 구조로 존재하게 됩니다. 컬럼명은 Excel 헤더와 같고, 각 행은 데이터베이스의 하나의 레코드입니다.</p>
+<p>우리가 SQL 쿼리를 작성하는 것은, 마치 Excel에서 필터링, 정렬, 분석을 하듯이 이 테이블에 대해 "질문"을 던지는 것입니다.</p>
+<h2 id="단계별-필터-피벗-요약의-sql-버전은"><a class="header" href="#단계별-필터-피벗-요약의-sql-버전은">단계별: 필터, 피벗, 요약의 SQL 버전은?</a></h2>
+<p>Excel에서 자주 사용하는 작업들을 SQL에서는 어떻게 표현하는지 알아봅시다.</p>
+<h3 id="1-데이터-필터링-excel-필터--sql-where"><a class="header" href="#1-데이터-필터링-excel-필터--sql-where">1. 데이터 필터링 (Excel 필터 → SQL WHERE)</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>데이터 탭 클릭</li>
+<li>필터 선택</li>
+<li>"State" 컬럼에서 드롭다운 화살표 클릭</li>
+<li>"NY"만 체크하고 확인 클릭</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT *
+FROM customers
+WHERE state = 'NY';
+</code></pre>
+<p>이 쿼리는 뉴욕에 있는 고객의 모든 컬럼을 반환합니다:</p>
+<div class="table-wrapper"><table><thead><tr><th>Customer_ID</th><th>First_Name</th><th>Last_Name</th><th>Email</th><th>City</th><th>State</th></tr></thead><tbody>
+<tr><td>2</td><td>Sarah</td><td>Johnson</td><td>sarah.j@email.com</td><td>New York</td><td>NY</td></tr>
+</tbody></table>
+</div>
+<h3 id="2-특정-컬럼-선택-excel-컬럼-숨기기--sql-select"><a class="header" href="#2-특정-컬럼-선택-excel-컬럼-숨기기--sql-select">2. 특정 컬럼 선택 (Excel 컬럼 숨기기 → SQL SELECT)</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>필요 없는 컬럼을 우클릭</li>
+<li>"숨기기" 선택</li>
+<li>First_Name, Last_Name, City만 보이게 설정</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT first_name, last_name, city
+FROM customers;
+</code></pre>
+<p>모든 고객에 대해 지정된 컬럼만 반환합니다:</p>
+<div class="table-wrapper"><table><thead><tr><th>First_Name</th><th>Last_Name</th><th>City</th></tr></thead><tbody>
+<tr><td>John</td><td>Smith</td><td>Chicago</td></tr>
+<tr><td>Sarah</td><td>Johnson</td><td>New York</td></tr>
+<tr><td>Michael</td><td>Williams</td><td>Los Angeles</td></tr>
+<tr><td>Emma</td><td>Brown</td><td>Houston</td></tr>
+<tr><td>James</td><td>Jones</td><td>Phoenix</td></tr>
+</tbody></table>
+</div>
+<h3 id="3-데이터-정렬-excel-정렬--sql-order-by"><a class="header" href="#3-데이터-정렬-excel-정렬--sql-order-by">3. 데이터 정렬 (Excel 정렬 → SQL ORDER BY)</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>데이터 범위 선택</li>
+<li>데이터 탭에서 정렬 클릭</li>
+<li>Last_Name 기준 오름차순 정렬</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT *
+FROM customers
+ORDER BY last_name;
+</code></pre>
+<p>고객들을 성 기준으로 알파벳 순으로 정렬한 결과입니다:</p>
+<div class="table-wrapper"><table><thead><tr><th>Customer_ID</th><th>First_Name</th><th>Last_Name</th><th>Email</th><th>City</th><th>State</th></tr></thead><tbody>
+<tr><td>4</td><td>Emma</td><td>Brown</td><td>emma.b@email.com</td><td>Houston</td><td>TX</td></tr>
+<tr><td>5</td><td>James</td><td>Jones</td><td>james.jones@email.com</td><td>Phoenix</td><td>AZ</td></tr>
+<tr><td>2</td><td>Sarah</td><td>Johnson</td><td>sarah.j@email.com</td><td>New York</td><td>NY</td></tr>
+<tr><td>1</td><td>John</td><td>Smith</td><td>john.smith@email.com</td><td>Chicago</td><td>IL</td></tr>
+<tr><td>3</td><td>Michael</td><td>Williams</td><td>mw@email.com</td><td>Los Angeles</td><td>CA</td></tr>
+</tbody></table>
+</div>
+<h3 id="4-요약-만들기-excel-피벗-테이블--sql-group-by"><a class="header" href="#4-요약-만들기-excel-피벗-테이블--sql-group-by">4. 요약 만들기 (Excel 피벗 테이블 → SQL GROUP BY)</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>데이터 범위 선택</li>
+<li>삽입 &gt; 피벗 테이블</li>
+<li>"State"를 행으로 드래그</li>
+<li>"Customer_ID"를 값으로 드래그하여 상태별 고객 수 계산</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT state, COUNT(*) as customer_count
+FROM customers
+GROUP BY state
+ORDER BY customer_count DESC;
+</code></pre>
+<p>각 주(state)별 고객 수를 세고 많은 순으로 정렬한 결과:</p>
+<div class="table-wrapper"><table><thead><tr><th>State</th><th>customer_count</th></tr></thead><tbody>
+<tr><td>NY</td><td>1</td></tr>
+<tr><td>IL</td><td>1</td></tr>
+<tr><td>CA</td><td>1</td></tr>
+<tr><td>TX</td><td>1</td></tr>
+<tr><td>AZ</td><td>1</td></tr>
+</tbody></table>
+</div>
+<h3 id="5-여러-작업-조합하기"><a class="header" href="#5-여러-작업-조합하기">5. 여러 작업 조합하기</a></h3>
+<p>Excel에서는 특정 주에 대해 필터링하고, Last_Name으로 정렬하고, 일부 컬럼만 보이도록 설정할 수 있습니다. SQL에서는 이 모든 작업을 하나의 쿼리로 결합할 수 있습니다:</p>
+<pre><code class="language-sql">SELECT first_name, last_name, city
+FROM customers
+WHERE state IN ('NY', 'CA')
+ORDER BY last_name;
+</code></pre>
+<p>이 쿼리는:</p>
+<ul>
+<li>first_name, last_name, city 컬럼만 선택하고</li>
+<li>NY 또는 CA에 있는 고객만 필터링한 후</li>
+<li>성(last_name) 기준으로 정렬합니다.</li>
+</ul>
+<p>결과:</p>
+<div class="table-wrapper"><table><thead><tr><th>First_Name</th><th>Last_Name</th><th>City</th></tr></thead><tbody>
+<tr><td>Sarah</td><td>Johnson</td><td>New York</td></tr>
+<tr><td>Michael</td><td>Williams</td><td>Los Angeles</td></tr>
+</tbody></table>
+</div>
+<h2 id="실습-excel-작업을-sql-쿼리로-바꾸기"><a class="header" href="#실습-excel-작업을-sql-쿼리로-바꾸기">실습: Excel 작업을 SQL 쿼리로 바꾸기</a></h2>
+<p>이번에는 조금 더 복잡한 예제를 통해 연습해봅시다. 두 개의 Excel 워크시트가 있다고 가정합니다: <code>orders</code> 와 <code>products</code></p>
+<p><strong>Orders 워크시트:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Order_ID</th><th>Customer_ID</th><th>Order_Date</th><th>Total_Amount</th></tr></thead><tbody>
+<tr><td>101</td><td>1</td><td>2025-01-15</td><td>120.50</td></tr>
+<tr><td>102</td><td>3</td><td>2025-01-20</td><td>45.99</td></tr>
+<tr><td>103</td><td>2</td><td>2025-01-25</td><td>75.25</td></tr>
+<tr><td>104</td><td>1</td><td>2025-02-01</td><td>200.00</td></tr>
+<tr><td>105</td><td>5</td><td>2025-02-05</td><td>65.75</td></tr>
+</tbody></table>
+</div>
+<p><strong>Products 워크시트:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Product_ID</th><th>Product_Name</th><th>Category</th><th>Price</th></tr></thead><tbody>
+<tr><td>P1</td><td>Laptop</td><td>Electronics</td><td>899.99</td></tr>
+<tr><td>P2</td><td>Mouse</td><td>Electronics</td><td>24.99</td></tr>
+<tr><td>P3</td><td>Coffee Maker</td><td>Kitchen</td><td>79.99</td></tr>
+<tr><td>P4</td><td>Blender</td><td>Kitchen</td><td>49.99</td></tr>
+<tr><td>P5</td><td>Headphones</td><td>Electronics</td><td>149.99</td></tr>
+</tbody></table>
+</div>
+<p><strong>Order_Items 워크시트 (orders와 products 연결):</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Order_ID</th><th>Product_ID</th><th>Quantity</th></tr></thead><tbody>
+<tr><td>101</td><td>P2</td><td>1</td></tr>
+<tr><td>101</td><td>P5</td><td>1</td></tr>
+<tr><td>102</td><td>P4</td><td>1</td></tr>
+<tr><td>103</td><td>P3</td><td>1</td></tr>
+<tr><td>104</td><td>P1</td><td>1</td></tr>
+<tr><td>105</td><td>P2</td><td>1</td></tr>
+<tr><td>105</td><td>P4</td><td>1</td></tr>
+</tbody></table>
+</div>
+<p>이제 Excel 작업과 그에 상응하는 SQL을 살펴봅시다:</p>
+<h3 id="작업-1-john-smith가-주문한-모든-주문-찾기"><a class="header" href="#작업-1-john-smith가-주문한-모든-주문-찾기">작업 1: John Smith가 주문한 모든 주문 찾기</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>VLOOKUP을 사용하여 customers 시트에서 John Smith의 Customer_ID 찾기</li>
+<li>Orders 시트에서 해당 Customer_ID로 필터링</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT o.*
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+WHERE c.first_name = 'John' AND c.last_name = 'Smith';
+</code></pre>
+<p>결과:</p>
+<div class="table-wrapper"><table><thead><tr><th>Order_ID</th><th>Customer_ID</th><th>Order_Date</th><th>Total_Amount</th></tr></thead><tbody>
+<tr><td>101</td><td>1</td><td>2025-01-15</td><td>120.50</td></tr>
+<tr><td>104</td><td>1</td><td>2025-02-01</td><td>200.00</td></tr>
+</tbody></table>
+</div>
+<h3 id="작업-2-제품-카테고리별-총-매출-계산"><a class="header" href="#작업-2-제품-카테고리별-총-매출-계산">작업 2: 제품 카테고리별 총 매출 계산</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>VLOOKUP을 사용하여 Order_Items에 Category 컬럼 추가</li>
+<li>피벗 테이블로 Category 행, (Price × Quantity)의 합계 계산</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT p.category, SUM(p.price * oi.quantity) as total_sales
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY p.category;
+</code></pre>
+<p>결과:</p>
+<div class="table-wrapper"><table><thead><tr><th>category</th><th>total_sales</th></tr></thead><tbody>
+<tr><td>Electronics</td><td>1074.97</td></tr>
+<tr><td>Kitchen</td><td>129.98</td></tr>
+</tbody></table>
+</div>
+<h3 id="작업-3-가장-많이-주문된-인기-상품-찾기"><a class="header" href="#작업-3-가장-많이-주문된-인기-상품-찾기">작업 3: 가장 많이 주문된 인기 상품 찾기</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>Order_Items로 피벗 테이블 생성</li>
+<li>Product_ID를 행에 추가</li>
+<li>Order_ID 개수 계산</li>
+<li>Count 기준 내림차순 정렬</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT p.product_name, COUNT(oi.order_id) as order_count
+FROM order_items oi
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY p.product_id, p.product_name
+ORDER BY order_count DESC;
+</code></pre>
+<p>결과:</p>
+<div class="table-wrapper"><table><thead><tr><th>product_name</th><th>order_count</th></tr></thead><tbody>
+<tr><td>Mouse</td><td>2</td></tr>
+<tr><td>Blender</td><td>2</td></tr>
+<tr><td>Laptop</td><td>1</td></tr>
+<tr><td>Coffee Maker</td><td>1</td></tr>
+<tr><td>Headphones</td><td>1</td></tr>
+</tbody></table>
+</div>
+<h3 id="작업-4-총-지출이-100-이상인-고객-찾기"><a class="header" href="#작업-4-총-지출이-100-이상인-고객-찾기">작업 4: 총 지출이 $100 이상인 고객 찾기</a></h3>
+<p><strong>Excel에서:</strong></p>
+<ol>
+<li>Orders로 피벗 테이블 생성</li>
+<li>Customer_ID를 행으로</li>
+<li>Total_Amount 합계를 값으로</li>
+<li>합계 &gt; 100으로 필터링</li>
+</ol>
+<p><strong>SQL에서:</strong></p>
+<pre><code class="language-sql">SELECT c.first_name, c.last_name, SUM(o.total_amount) as total_spent
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+HAVING SUM(o.total_amount) &gt; 100;
+</code></pre>
+<p>결과:</p>
+<div class="table-wrapper"><table><thead><tr><th>first_name</th><th>last_name</th><th>total_spent</th></tr></thead><tbody>
+<tr><td>John</td><td>Smith</td><td>320.50</td></tr>
+</tbody></table>
+</div>
+<h2 id="점진적으로-복잡한-쿼리-만들기"><a class="header" href="#점진적으로-복잡한-쿼리-만들기">점진적으로 복잡한 쿼리 만들기</a></h2>
+<p>SQL의 장점 중 하나는 쿼리를 점진적으로, 간단한 것부터 시작해서 필요에 따라 복잡하게 만들 수 있다는 점입니다. 그 과정을 단계별로 살펴봅시다:</p>
+<h3 id="step-1-기본-select-문으로-시작"><a class="header" href="#step-1-기본-select-문으로-시작">Step 1: 기본 SELECT 문으로 시작</a></h3>
+<pre><code class="language-sql">SELECT *
+FROM customers;
+</code></pre>
+<p>모든 고객 정보를 반환합니다.</p>
+<h3 id="step-2-결과-필터링"><a class="header" href="#step-2-결과-필터링">Step 2: 결과 필터링</a></h3>
+<pre><code class="language-sql">SELECT *
+FROM customers
+WHERE state IN ('NY', 'CA');
+</code></pre>
+<p>뉴욕(NY)과 캘리포니아(CA)에 있는 고객만 반환합니다.</p>
+<h3 id="step-3-특정-컬럼만-선택"><a class="header" href="#step-3-특정-컬럼만-선택">Step 3: 특정 컬럼만 선택</a></h3>
+<pre><code class="language-sql">SELECT customer_id, first_name, last_name
+FROM customers
+WHERE state IN ('NY', 'CA');
+</code></pre>
+<p>NY와 CA 고객의 ID 및 이름만 반환합니다.</p>
+<h3 id="step-4-다른-테이블과-join"><a class="header" href="#step-4-다른-테이블과-join">Step 4: 다른 테이블과 JOIN</a></h3>
+<pre><code class="language-sql">SELECT c.customer_id, c.first_name, c.last_name, o.order_id, o.order_date
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.state IN ('NY', 'CA');
+</code></pre>
+<p>NY 또는 CA에 있는 고객의 정보와 해당 고객이 주문한 주문 정보를 함께 반환합니다.</p>
+<h3 id="step-5-집계-함수-추가"><a class="header" href="#step-5-집계-함수-추가">Step 5: 집계 함수 추가</a></h3>
+<pre><code class="language-sql">SELECT c.customer_id, c.first_name, c.last_name, 
+       COUNT(o.order_id) as order_count,
+       SUM(o.total_amount) as total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.state IN ('NY', 'CA')
+GROUP BY c.customer_id, c.first_name, c.last_name;
+</code></pre>
+<p>NY와 CA에 있는 각 고객의 주문 수(order_count)와 총 지출(total_spent)을 계산합니다.</p>
+<h3 id="step-6-집계-결과-필터링"><a class="header" href="#step-6-집계-결과-필터링">Step 6: 집계 결과 필터링</a></h3>
+<pre><code class="language-sql">SELECT c.customer_id, c.first_name, c.last_name, 
+       COUNT(o.order_id) as order_count,
+       SUM(o.total_amount) as total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.state IN ('NY', 'CA')
+GROUP BY c.customer_id, c.first_name, c.last_name
+HAVING COUNT(o.order_id) &gt; 0;
+</code></pre>
+<p>주문을 한 건이라도 한 고객만 결과에 포함시킵니다.</p>
+<h3 id="step-7-결과-정렬"><a class="header" href="#step-7-결과-정렬">Step 7: 결과 정렬</a></h3>
+<pre><code class="language-sql">SELECT c.customer_id, c.first_name, c.last_name, 
+       COUNT(o.order_id) as order_count,
+       SUM(o.total_amount) as total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.state IN ('NY', 'CA')
+GROUP BY c.customer_id, c.first_name, c.last_name
+HAVING COUNT(o.order_id) &gt; 0
+ORDER BY total_spent DESC;
+</code></pre>
+<p>총 지출이 많은 순서로 고객을 정렬합니다.</p>
+<p>이처럼 SQL 쿼리는 점진적으로 복잡하게 쌓아갈 수 있기 때문에, 작성과 디버깅이 훨씬 수월해집니다.</p>
+<h2 id="excel-사용자에게-유용한-sql-쿼리-패턴"><a class="header" href="#excel-사용자에게-유용한-sql-쿼리-패턴">Excel 사용자에게 유용한 SQL 쿼리 패턴</a></h2>
+<p>다음은 Excel 사용자에게 특히 익숙한 SQL 쿼리 패턴들입니다:</p>
+<h3 id="패턴-1-vlookup-join"><a class="header" href="#패턴-1-vlookup-join">패턴 1: "VLOOKUP" JOIN</a></h3>
+<p>Excel에서는 VLOOKUP으로 다른 테이블의 데이터를 가져옵니다. SQL에서는 JOIN을 사용합니다:</p>
+<pre><code class="language-sql">SELECT o.order_id, o.order_date, c.first_name, c.last_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;
+</code></pre>
+<h3 id="패턴-2-피벗-테이블-group-by"><a class="header" href="#패턴-2-피벗-테이블-group-by">패턴 2: "피벗 테이블" Group By</a></h3>
+<p>Excel의 피벗 테이블은 데이터 요약에 강력한 도구입니다. SQL에서는 GROUP BY를 사용합니다:</p>
+<pre><code class="language-sql">SELECT 
+    YEAR(order_date) as order_year,
+    MONTH(order_date) as order_month,
+    SUM(total_amount) as monthly_sales
+FROM orders
+GROUP BY YEAR(order_date), MONTH(order_date)
+ORDER BY order_year, order_month;
+</code></pre>
+<h3 id="패턴-3-필터-where"><a class="header" href="#패턴-3-필터-where">패턴 3: "필터" WHERE</a></h3>
+<p>Excel의 필터 기능과 같은 역할을 SQL에서는 WHERE로 수행합니다:</p>
+<pre><code class="language-sql">SELECT *
+FROM products
+WHERE category = 'Electronics' AND price &lt; 100;
+</code></pre>
+<h3 id="패턴-4-if-case"><a class="header" href="#패턴-4-if-case">패턴 4: "IF" CASE</a></h3>
+<p>Excel의 IF 함수와 같은 조건 처리를 SQL에서는 CASE 문으로 작성합니다:</p>
+<pre><code class="language-sql">SELECT 
+    product_name,
+    price,
+    CASE 
+        WHEN price &lt; 50 THEN 'Budget'
+        WHEN price BETWEEN 50 AND 100 THEN 'Mid-range'
+        ELSE 'Premium'
+    END as price_category
+FROM products;
+</code></pre>
+<h3 id="패턴-5-countif-having"><a class="header" href="#패턴-5-countif-having">패턴 5: "CountIf" HAVING</a></h3>
+<p>Excel의 COUNTIF 기능은 SQL의 HAVING 절과 함께 GROUP BY로 구현할 수 있습니다:</p>
+<pre><code class="language-sql">SELECT category, COUNT(*) as product_count
+FROM products
+GROUP BY category
+HAVING COUNT(*) &gt; 5;
+</code></pre>
+<h2 id="첫-번째-sql-쿼리를-위한-팁"><a class="header" href="#첫-번째-sql-쿼리를-위한-팁">첫 번째 SQL 쿼리를 위한 팁</a></h2>
+<p>SQL 쿼리를 작성할 때 유용한 팁은 다음과 같습니다:</p>
+<ol>
+<li><strong>단순하게 시작하세요</strong>: 기본 SELECT 문으로 시작하고 점진적으로 확장하세요.</li>
+<li><strong>의미 있는 별칭(alias)을 사용하세요</strong>: customers는 <code>c</code>, orders는 <code>o</code> 등 간단한 별칭으로 가독성을 높이세요.</li>
+<li><strong>쿼리를 깔끔하게 정리하세요</strong>: 줄바꿈과 들여쓰기를 사용해 구조적으로 작성하세요.</li>
+<li><strong>SELECT로 먼저 테스트하세요</strong>: UPDATE나 DELETE 전에 SELECT로 조건을 검증하세요.</li>
+<li><strong>주석을 사용하세요</strong>: <code>--</code>를 사용하여 복잡한 로직에 주석을 추가하세요.</li>
+<li><strong>필요한 컬럼만 선택하세요</strong>: <code>SELECT *</code> 대신 필요한 컬럼만 지정하세요.</li>
+<li><strong>JOIN 조건을 확인하세요</strong>: 테이블 간 연결이 정확한지 항상 검증하세요.</li>
+</ol>
+<h2 id="마무리"><a class="header" href="#마무리">마무리</a></h2>
+<p>이번 장에서는 SQL 쿼리를 작성하는 법을 익히며, 익숙한 Excel 작업이 SQL에서는 어떻게 표현되는지 살펴보았습니다. 많은 Excel 기능들이 SQL에서도 직접적으로 매핑됩니다:</p>
+<ul>
+<li>Excel 필터 → SQL WHERE</li>
+<li>Excel 정렬 → SQL ORDER BY</li>
+<li>Excel 피벗 테이블 → SQL GROUP BY</li>
+<li>Excel VLOOKUP → SQL JOIN</li>
+<li>Excel 수식 → SQL 함수 및 표현식</li>
+</ul>
+<p>기존의 Excel 경험을 활용하면 SQL을 더 쉽게 이해하고 사용할 수 있습니다. 데이터가 커지고 복잡해질수록 SQL의 강력함과 유연성이 빛을 발하게 될 것입니다.</p>
+<p>다음 장에서는 SQL이 데이터 생태계에서 어떤 역할을 하는지, 그리고 대시보드나 비즈니스 인텔리전스 툴에서 어떻게 활용되는지를 살펴보겠습니다.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter8.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter10.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter8.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter10.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

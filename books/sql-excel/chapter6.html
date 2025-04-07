@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>관계형 데이터베이스 101 - Introduction to SQL for Excel Users</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to SQL for Excel Users</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="정규화normalization-데이터를-효율적으로-구성하기"><a class="header" href="#정규화normalization-데이터를-효율적으로-구성하기">정규화(Normalization): 데이터를 효율적으로 구성하기</a></h2>
+<p>데이터를 별도의 관련된 테이블로 구성하는 과정을 <strong>정규화(Normalization)</strong> 라고 합니다. 정규화는 다음과 같은 목적을 가진 일련의 규칙(정규형, Normal Forms)을 따릅니다:</p>
+<ol>
+<li>중복된 데이터 제거</li>
+<li>데이터 종속성의 논리적 정합성 확보</li>
+<li>데이터베이스를 더 유연하고 효율적이며 확장 가능하게 만들기</li>
+</ol>
+<p>이 장에서는 정규화에 대해 깊이 다루지는 않지만, 핵심 원칙은 데이터를 논리적인 테이블로 나누고 이들 간의 관계를 정의하는 것입니다. 즉, 모든 데이터를 하나의 거대한 테이블에 넣는 대신 관련된 항목들을 나누어 저장하는 것이죠.</p>
+<p>이는 복잡한 Excel 워크북을 각각의 목적에 따라 여러 시트로 나누는 방식과 유사합니다. 하나의 시트에 모든 정보를 몰아넣는 것보다 훨씬 체계적입니다.</p>
+<h2 id="excel에서-관계형-데이터베이스로-실용적인-예시"><a class="header" href="#excel에서-관계형-데이터베이스로-실용적인-예시">Excel에서 관계형 데이터베이스로: 실용적인 예시</a></h2>
+<p>이제 Excel 워크북을 관계형 데이터베이스로 변환하는 실용적인 예제를 살펴보겠습니다.</p>
+<p>작은 비즈니스를 위한 Excel 워크북이 있고, 다음과 같은 시트들이 있다고 가정해 봅시다:</p>
+<ol>
+<li><strong>Customers</strong>: 고객 연락처 정보</li>
+<li><strong>Products</strong>: 제품 정보 및 가격</li>
+<li><strong>Orders</strong>: 주문 정보 (고객 및 제품 포함)</li>
+</ol>
+<p>Orders 시트는 다음과 같을 수 있습니다:</p>
+<div class="table-wrapper"><table><thead><tr><th>Order ID</th><th>Date</th><th>Customer Name</th><th>Customer Email</th><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th></tr></thead><tbody>
+<tr><td>1001</td><td>1/15/2025</td><td>John Smith</td><td>john@example.com</td><td>Laptop</td><td>1</td><td>$999.99</td><td>$999.99</td></tr>
+<tr><td>1002</td><td>1/16/2025</td><td>Sarah Jones</td><td>sarah@example.com</td><td>Mouse</td><td>2</td><td>$24.99</td><td>$49.98</td></tr>
+<tr><td>1003</td><td>1/16/2025</td><td>John Smith</td><td>john@example.com</td><td>Monitor</td><td>1</td><td>$249.99</td><td>$249.99</td></tr>
+</tbody></table>
+</div>
+<p>이 Excel 데이터를 관계형 데이터베이스로 변환하려면 다음과 같은 단계를 따릅니다:</p>
+<ol>
+<li><strong>엔터티(Entities)</strong> 식별하기 (주요 객체): Customers, Products, Orders</li>
+<li>각 엔터티에 대해 <strong>별도의 테이블 생성</strong> 및 적절한 컬럼 정의</li>
+<li>각 테이블에 <strong>Primary Key</strong> 설정</li>
+<li><strong>Foreign Key</strong>를 사용하여 테이블 간 관계 설정</li>
+</ol>
+<p>결과적으로 다음과 같은 데이터베이스 설계가 됩니다:</p>
+<p><strong>Customers Table:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Customer_ID (PK)</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead><tbody>
+<tr><td>C001</td><td>John Smith</td><td>john@example.com</td><td>555-1234</td></tr>
+<tr><td>C002</td><td>Sarah Jones</td><td>sarah@example.com</td><td>555-5678</td></tr>
+</tbody></table>
+</div>
+<p><strong>Products Table:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Product_ID (PK)</th><th>Name</th><th>Description</th><th>Price</th></tr></thead><tbody>
+<tr><td>P001</td><td>Laptop</td><td>15" Notebook Computer</td><td>$999.99</td></tr>
+<tr><td>P002</td><td>Mouse</td><td>Wireless Mouse</td><td>$24.99</td></tr>
+<tr><td>P003</td><td>Monitor</td><td>24" HD Monitor</td><td>$249.99</td></tr>
+</tbody></table>
+</div>
+<p><strong>Orders Table:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Order_ID (PK)</th><th>Date</th><th>Customer_ID (FK)</th></tr></thead><tbody>
+<tr><td>1001</td><td>1/15/2025</td><td>C001</td></tr>
+<tr><td>1002</td><td>1/16/2025</td><td>C002</td></tr>
+<tr><td>1003</td><td>1/16/2025</td><td>C001</td></tr>
+</tbody></table>
+</div>
+<p><strong>Order_Items Table:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Order_Item_ID (PK)</th><th>Order_ID (FK)</th><th>Product_ID (FK)</th><th>Quantity</th><th>Price</th></tr></thead><tbody>
+<tr><td>OI001</td><td>1001</td><td>P001</td><td>1</td><td>$999.99</td></tr>
+<tr><td>OI002</td><td>1002</td><td>P002</td><td>2</td><td>$24.99</td></tr>
+<tr><td>OI003</td><td>1003</td><td>P003</td><td>1</td><td>$249.99</td></tr>
+</tbody></table>
+</div>
+<p>여기서 주목할 점은 원래 Excel에는 없던 <strong>Order_Items</strong>라는 새로운 테이블이 추가되었다는 것입니다. 이는 하나의 주문에 여러 개의 제품이 포함될 수 있기 때문에 <strong>Orders와 Products 간의 다대다(Many-to-Many) 관계</strong>를 나타내기 위해 **중간 테이블(Junction Table)**이 필요한 구조입니다.</p>
+<h2 id="결론"><a class="header" href="#결론">결론</a></h2>
+<p>관계형 데이터베이스는 데이터를 <strong>별개의 테이블로 나누고</strong>, <strong>Primary Key와 Foreign Key</strong>를 통해 이들 간의 관계를 설정합니다. 이 구조는 데이터의 중복을 제거하고, 무결성을 향상시키며, 데이터를 더 유연하게 조회하고 분석할 수 있도록 해줍니다.</p>
+<p>Excel에 익숙하다면, 관계형 데이터베이스를 여러 개의 시트로 구성된 워크북이라고 생각하면 됩니다. 단, VLOOKUP 대신 데이터베이스는 <strong>JOIN</strong>을 통해 자동으로 관계를 처리해줍니다.</p>
+<p>이제 앞으로 이 책에서는 관계형 데이터베이스와 상호작용하는 방법, 즉 SQL을 통해 데이터를 질의하고 조작하는 방법을 배워나갈 것입니다. SQL의 많은 개념들이 Excel과 유사한 점이 있어서, 여러분은 예상보다 훨씬 쉽게 전환할 수 있을 것입니다.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter7.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter5.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter7.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
