@@ -33,6 +33,7 @@ Through these experiences, I’ve cultivated a unique skill set that blends tech
 
 ## 📰 **News**
 
+- **[Aug. 2025]** 📄 *Paper Accepted to EMNLP 2025*: My paper, [**Sketch-of-Thought**](https://arxiv.org/abs/2503.05179) was accepted to the main conference track.
 - **[Mar. 2025]** 📄 *New preprint is out*: Check out [**Sketch-of-Thought: Efficient LLM Reasoning with Adaptive Cognitive-Inspired Sketching**](https://arxiv.org/abs/2503.05179)!
 - **[Feb. 2024]** 🎓 *Started MS Program*: Excited to start my MS at the [**KAIST MLAI Lab**](https://www.mlai-kaist.com/)!
 
