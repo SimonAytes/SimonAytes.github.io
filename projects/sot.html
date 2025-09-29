@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sketch-of-Thought Explorer</title>
+  </head>
+  <body style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;background:#f6f6f6;color:#111;">
+    <div style="max-width:1120px;margin:0 auto;padding:72px 48px 80px;">
+      <header style="display:flex;flex-direction:column;gap:16px;margin-bottom:64px;">
+        <div style="text-transform:uppercase;letter-spacing:0.24em;font-size:12px;color:#666;">Sketch-of-Thought Explorer</div>
+        <h1 style="margin:0;font-size:52px;font-weight:600;line-height:1.05;">Reasoning sketches, at a glance.</h1>
+        <p style="margin:0;max-width:680px;font-size:18px;line-height:1.6;color:#444;">
+          Humans naturally compress complex reasoning into crisp sketches. Sketch-of-Thought (SoT) channels that instinct for language models, guiding them to draft conceptual scaffolds before final answers. Explore the cached prompts below to see how sketching trades fewer tokens for faster, still dependable reasoning.
+        </p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#555;">
+          <a href="https://github.com/SimonAytes/SoT" target="_blank" rel="noopener" style="color:#111;text-decoration:none;padding-bottom:2px;border-bottom:1px solid rgba(17,17,17,0.35);">GitHub Repo</a>
+          <a href="https://arxiv.org/abs/2503.05179" target="_blank" rel="noopener" style="color:#111;text-decoration:none;padding-bottom:2px;border-bottom:1px solid rgba(17,17,17,0.35);">Read the Paper</a>
+        </div>
+      </header>
+
+      <main style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:start;">
+        <div style="display:flex;flex-direction:column;gap:32px;">
+          <section style="display:flex;flex-direction:column;gap:18px;padding:26px 28px;background:#fff;border:1px solid #e5e5e5;border-radius:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+              <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#777;">Task Type</div>
+              <div style="font-size:12px;color:#999;">Choose a reasoning domain</div>
+            </div>
+            <div id="taskGroup" role="group" aria-label="Reasoning tasks" style="display:flex;flex-wrap:wrap;gap:12px;">
+            </div>
+          </section>
+
+          <section style="display:flex;flex-direction:column;gap:18px;padding:26px 28px;background:#fff;border:1px solid #e5e5e5;border-radius:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+              <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#777;">Reasoning Modes</div>
+              <div style="font-size:12px;color:#999;">SoT paradigms vs. CoT baseline</div>
+            </div>
+            <div id="paradigmGroup" role="group" aria-label="Reasoning paradigms" style="display:flex;flex-wrap:wrap;gap:12px;">
+            </div>
+            <div id="paradigmDescription" style="font-size:14px;color:#555;line-height:1.55;max-width:420px;">Pick a reasoning mode to see how the sketch operates.</div>
+          </section>
+
+          <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
+            <div style="padding:24px 28px;background:#fff;border:1px solid #e5e5e5;border-radius:6px;display:flex;flex-direction:column;gap:12px;">
+              <div style="font-size:13px;letter-spacing:0.18em;color:#999;text-transform:uppercase;">Token Usage</div>
+              <div id="tokenSummary" style="font-size:28px;font-weight:600;">—</div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;justify-content:space-between;font-size:14px;color:#555;">
+                  <span>Current output</span>
+                  <span id="tokenCount">— tokens</span>
+                </div>
+                <div style="height:10px;border-radius:999px;background:#eaeaea;overflow:hidden;">
+                  <div id="tokenBar" style="height:100%;width:0%;background:#111;transition:width 0.3s ease;"></div>
+                </div>
+                <div id="tokenFootnote" style="font-size:12px;color:#888;line-height:1.4;">Select a paradigm to compare against the Chain-of-Thought baseline.</div>
+              </div>
+            </div>
+            <div style="padding:24px 28px;background:#fff;border:1px solid #e5e5e5;border-radius:6px;display:flex;flex-direction:column;gap:12px;">
+              <div style="font-size:13px;letter-spacing:0.18em;color:#999;text-transform:uppercase;">Latency</div>
+              <div id="latencySummary" style="font-size:28px;font-weight:600;">—</div>
+              <div style="display:flex;justify-content:space-between;font-size:14px;color:#555;">
+                <span>Measured latency</span>
+                <span id="latencyValue">— ms</span>
+              </div>
+              <div id="latencyFootnote" style="font-size:12px;color:#888;line-height:1.4;">Latency captured via GPT-4o API runtime logs.</div>
+            </div>
+          </section>
+        </div>
+
+        <article style="background:#111;color:#f4f4f4;padding:44px 48px;border-radius:12px;box-shadow:0 20px 40px rgba(17,17,17,0.14);display:flex;flex-direction:column;gap:28px;min-height:560px;">
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <span id="taskBadge" style="padding:6px 12px;border:1px solid rgba(244,244,244,0.4);border-radius:999px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">—</span>
+            <span id="paradigmBadge" style="padding:6px 12px;border:1px solid rgba(244,244,244,0.4);border-radius:999px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">—</span>
+            <span id="familyBadge" style="padding:6px 12px;border:1px solid rgba(244,244,244,0.4);border-radius:999px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">—</span>
+          </div>
+          <h2 id="questionTitle" style="margin:0;font-size:30px;font-weight:500;line-height:1.3;color:#fdfdfd;">Select a task to explore.</h2>
+          <!--<div id="promptContext" style="margin:0;color:rgba(244,244,244,0.72);font-size:14px;line-height:1.6;white-space:pre-wrap;min-height:72px;">Choose a task and paradigm to load the reasoning sketch.</div>-->
+          <div style="background:rgba(244,244,244,0.08);border:1px solid rgba(244,244,244,0.12);border-radius:10px;padding:20px 24px;display:flex;flex-direction:column;gap:12px;min-height:220px;">
+            <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(244,244,244,0.7);">Reasoning Trace</div>
+            <pre id="reasoningBlock" style="margin:0;font-size:15px;line-height:1.65;font-family:'IBM Plex Mono',SFMono-Regular,Consolas,'Liberation Mono',monospace;white-space:pre-wrap;color:#f1f1f1;opacity:0.92;">No <think> section captured yet.</pre>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;min-height:88px;">
+            <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(244,244,244,0.7);">Final Answer</div>
+            <div id="finalAnswer" style="font-size:20px;font-weight:500;color:#fdfdfd;">—</div>
+          </div>
+        </article>
+      </main>
+    </div>
+
+    <script>
+      const dataUrl = '/files/projects/sot/sot-examples.json';
+      const taskGroup = document.getElementById('taskGroup');
+      const paradigmGroup = document.getElementById('paradigmGroup');
+      const paradigmDescription = document.getElementById('paradigmDescription');
+      const questionTitle = document.getElementById('questionTitle');
+      const promptContext = document.getElementById('promptContext');
+      const reasoningBlock = document.getElementById('reasoningBlock');
+      const finalAnswer = document.getElementById('finalAnswer');
+      const taskBadge = document.getElementById('taskBadge');
+      const paradigmBadge = document.getElementById('paradigmBadge');
+      const familyBadge = document.getElementById('familyBadge');
+      const tokenSummary = document.getElementById('tokenSummary');
+      const tokenCount = document.getElementById('tokenCount');
+      const tokenBar = document.getElementById('tokenBar');
+      const tokenFootnote = document.getElementById('tokenFootnote');
+      const latencySummary = document.getElementById('latencySummary');
+      const latencyValue = document.getElementById('latencyValue');
+      const latencyFootnote = document.getElementById('latencyFootnote');
+
+      const taskOrder = ['Science', 'Math', 'Commonsense', 'Medical'];
+      const paradigmDescriptions = {
+        'conceptual-chaining': 'Sketches reasoning as a linear sequence of anchored concepts and causal links.',
+        'chunked-symbolism': 'Condenses inference into symbolic chunks that capture the core cognitive steps.',
+        'expert-lexicons': 'Uses domain-specific lexicons to express expert heuristics in terse shorthand.',
+        'chain-of-thought': 'Traditional Chain-of-Thought reasoning.'
+      };
+
+      let groupedByQuestion = new Map();
+      let questionsByTask = new Map();
+      let questionMeta = new Map();
+      let activeTask = null;
+      let currentParadigmId = null;
+
+      function baseButtonStyle() {
+        return {
+          background: '#fdfdfd',
+          color: '#222',
+          borderColor: '#c7c7c7',
+          opacity: '0.72'
+        };
+      }
+
+      function applyButtonStyle(button, overrides = {}) {
+        button.style.padding = overrides.padding || '12px 18px';
+        button.style.border = '1px solid ' + (overrides.borderColor || baseButtonStyle().borderColor);
+        button.style.borderRadius = '999px';
+        button.style.background = overrides.background || baseButtonStyle().background;
+        button.style.color = overrides.color || baseButtonStyle().color;
+        button.style.fontSize = overrides.fontSize || '14px';
+        button.style.letterSpacing = overrides.letterSpacing || '0.02em';
+        button.style.textTransform = overrides.textTransform || 'none';
+        button.style.cursor = 'pointer';
+        button.style.transition = 'background 0.2s ease,color 0.2s ease,opacity 0.2s ease';
+        button.style.opacity = overrides.opacity || baseButtonStyle().opacity;
+        button.style.display = 'flex';
+        button.style.alignItems = 'center';
+        button.style.gap = overrides.gap || '6px';
+      }
+
+      function styleActive(button, isActive) {
+        if (isActive) {
+          applyButtonStyle(button, {
+            background: '#111',
+            color: '#f6f6f6',
+            borderColor: '#111',
+            opacity: '1'
+          });
+        } else {
+          applyButtonStyle(button);
+        }
+      }
+
+      function styleTaskButton(button, isActive) {
+        const baseOverrides = {
+          fontSize: '13px',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          gap: '0px'
+        };
+        if (isActive) {
+          applyButtonStyle(button, {
+            ...baseOverrides,
+            background: '#111',
+            color: '#f6f6f6',
+            borderColor: '#111',
+            opacity: '1'
+          });
+        } else {
+          applyButtonStyle(button, baseOverrides);
+        }
+      }
+
+      function formatTokens(entry, baseline) {
+        if (!entry) return { headline: '—', detail: '— tokens', width: '0%', footnote: tokenFootnote.textContent };
+        if (entry.family === 'CoT') {
+          return {
+            headline: 'Baseline reference',
+            detail: `${entry.num_tokens} tokens`,
+            width: '100%',
+            footnote: 'Chain-of-Thought acts as the baseline comparison.'
+          };
+        }
+        const baselineTokens = baseline ? baseline.num_tokens : null;
+        const currentTokens = entry.num_tokens;
+        if (!baselineTokens) {
+          return {
+            headline: `${currentTokens} tokens`,
+            detail: `${currentTokens} tokens`,
+            width: '100%',
+            footnote: 'No baseline recorded for this prompt.'
+          };
+        }
+        const savings = ((baselineTokens - currentTokens) / baselineTokens) * 100;
+        const clippedSavings = Math.round(savings);
+        const width = Math.min(100, Math.max(14, (currentTokens / baselineTokens) * 100));
+        const headline = clippedSavings >= 0 ? `${clippedSavings}% fewer tokens` : `${Math.abs(clippedSavings)}% more tokens`;
+        const detail = `${currentTokens} tokens (baseline ${baselineTokens})`;
+        const footnote = `Baseline = Chain-of-Thought (${baselineTokens} tokens). Token delta reflects cached outputs.`;
+        return { headline, detail, width: width + '%', footnote };
+      }
+
+      function formatLatency(entry, baseline) {
+        if (!entry) return { headline: '—', detail: '— ms', footnote: latencyFootnote.textContent };
+        if (entry.family === 'CoT') {
+          return {
+            headline: 'Baseline reference',
+            detail: `${entry.latency_ms} ms`,
+            footnote: 'Chain-of-Thought acts as the baseline comparison.'
+          };
+        }
+        if (!baseline) {
+          return { headline: `${entry.latency_ms} ms`, detail: `${entry.latency_ms} ms`, footnote: 'Latency captured via GPT-4o API runtime logs.' };
+        }
+        const delta = entry.latency_ms - baseline.latency_ms;
+        const sign = delta <= 0 ? 'faster' : 'slower';
+        const value = Math.abs(Math.round(delta));
+        const headline = delta === 0 ? 'Matches baseline latency' : `${value} ms ${sign} than CoT`;
+        const detail = `${entry.latency_ms} ms (baseline ${baseline.latency_ms} ms)`;
+        const footnote = 'Latency is measured via a GPT-4o API call.';
+        return { headline, detail, footnote };
+      }
+
+      function parseSketchOutput(raw) {
+        if (!raw) {
+          return { context: '', reasoning: '', answer: '', trailing: '' };
+        }
+        const thinkRegex = /<think>([\s\S]*?)(<\/think>|$)/i;
+        const match = raw.match(thinkRegex);
+        let context = raw.trim();
+        let reasoning = '';
+        let trailing = '';
+        if (match) {
+          reasoning = match[1].trim();
+          const startIndex = match.index || 0;
+          const endIndex = startIndex + match[0].length;
+          context = raw.slice(0, startIndex).trim();
+          trailing = raw.slice(endIndex).trim();
+        }
+        let answer = '';
+        if (trailing) {
+          const answerMatch = trailing.match(/Answer\s*[:=]\s*(.*)/i);
+          if (answerMatch) {
+            answer = answerMatch[1].trim();
+            trailing = trailing.slice(0, answerMatch.index).trim();
+          }
+        }
+        return { context, reasoning, answer, trailing };
+      }
+
+      function cleanPromptContext(rawContext, trailing, questionText) {
+        const segments = [];
+        const normalizedQuestion = questionText ? questionText.trim().toLowerCase() : '';
+        const pushLines = (value) => {
+          if (!value) return;
+          value
+            .split('\\n')
+            .map(line => line.trim())
+            .filter(Boolean)
+            .forEach(line => {
+              const lower = line.toLowerCase();
+              if (lower.startsWith('question:')) {
+                const stripped = lower.replace('question:', '').trim();
+                if (stripped === normalizedQuestion) {
+                  return;
+                }
+              }
+              segments.push(line);
+            });
+        };
+        pushLines(rawContext);
+        pushLines(trailing);
+        return segments.join('\n');
+      }
+
+      function highlightTask(taskType) {
+        Array.from(taskGroup.children).forEach(button => {
+          const isActive = button.dataset.taskId === taskType;
+          styleTaskButton(button, isActive);
+        });
+      }
+
+      function render(questionId, paradigmId) {
+        const entries = groupedByQuestion.get(questionId) || [];
+        const selected = entries.find(item => item.paradigm_id === paradigmId) || entries[0];
+        if (!selected) {
+          questionTitle.textContent = 'No cached example found for this selection.';
+          if (promptContext) {
+            promptContext.textContent = 'Upload additional examples to view this task.';
+          }
+          reasoningBlock.textContent = 'No <think> section captured yet.';
+          reasoningBlock.style.opacity = '0.5';
+          finalAnswer.textContent = '—';
+          tokenSummary.textContent = '—';
+          tokenCount.textContent = '— tokens';
+          tokenBar.style.width = '0%';
+          tokenFootnote.textContent = 'Awaiting cached outputs for this combination.';
+          latencySummary.textContent = '—';
+          latencyValue.textContent = '— ms';
+          latencyFootnote.textContent = 'Latency requires a cached output.';
+          paradigmDescription.textContent = 'Sketch description coming soon.';
+          currentParadigmId = null;
+          return;
+        }
+
+        const meta = questionMeta.get(questionId);
+        const baseline = entries.find(item => item.family === 'CoT');
+
+        questionTitle.textContent = selected.question;
+        const parsed = parseSketchOutput(selected.output || '');
+        const contextText = cleanPromptContext(parsed.context, parsed.trailing, selected.question);
+        // promptContext.textContent = contextText || 'No additional prompt context.';
+        reasoningBlock.textContent = parsed.reasoning || 'No <think> section captured yet.';
+        reasoningBlock.style.opacity = parsed.reasoning ? '0.92' : '0.5';
+        finalAnswer.textContent = parsed.answer || '—';
+        paradigmBadge.textContent = selected.paradigm_label;
+        familyBadge.textContent = selected.family;
+        taskBadge.textContent = meta ? meta.task_type : '—';
+        paradigmDescription.textContent = paradigmDescriptions[selected.paradigm_id] || 'Sketch description coming soon.';
+        currentParadigmId = selected.paradigm_id;
+
+        Array.from(paradigmGroup.children).forEach(button => {
+          const isActive = button.dataset.paradigmId === selected.paradigm_id;
+          styleActive(button, isActive);
+        });
+
+        const tokenData = formatTokens(selected, baseline);
+        tokenSummary.textContent = tokenData.headline;
+        tokenCount.textContent = tokenData.detail;
+        tokenBar.style.width = tokenData.width;
+        tokenFootnote.textContent = tokenData.footnote;
+
+        const latencyData = formatLatency(selected, baseline);
+        latencySummary.textContent = latencyData.headline;
+        latencyValue.textContent = latencyData.detail;
+        latencyFootnote.textContent = latencyData.footnote;
+      }
+
+      function createParadigmButtons(questionId) {
+        const familyPriority = { CoT: 0, SoT: 1 };
+        const entries = (groupedByQuestion.get(questionId) || []).slice().sort((a, b) => {
+          const familyDelta = (familyPriority[a.family] ?? 99) - (familyPriority[b.family] ?? 99);
+          if (familyDelta !== 0) return familyDelta;
+          return a.paradigm_label.localeCompare(b.paradigm_label);
+        });
+        paradigmGroup.innerHTML = '';
+        entries.forEach(entry => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.dataset.paradigmId = entry.paradigm_id;
+          button.setAttribute('aria-label', `${entry.paradigm_label} ${entry.family}`);
+
+          const nameSpan = document.createElement('span');
+          nameSpan.textContent = entry.paradigm_label;
+          nameSpan.style.fontWeight = '600';
+          nameSpan.style.fontSize = '13px';
+
+          const familySpan = document.createElement('span');
+          familySpan.textContent = entry.family;
+          familySpan.style.fontSize = '11px';
+          familySpan.style.letterSpacing = '0.12em';
+          familySpan.style.textTransform = 'uppercase';
+          familySpan.style.opacity = '0.75';
+
+          button.appendChild(nameSpan);
+          button.appendChild(familySpan);
+          applyButtonStyle(button);
+
+          button.addEventListener('click', () => {
+            render(questionId, entry.paradigm_id);
+          });
+
+          paradigmGroup.appendChild(button);
+        });
+        return entries;
+      }
+
+      function selectTask(taskType) {
+        const questionIds = questionsByTask.get(taskType) || [];
+        activeTask = taskType;
+        highlightTask(taskType);
+        if (questionIds.length === 0) {
+          paradigmGroup.innerHTML = '';
+          questionTitle.textContent = 'No examples cached for this task yet.';
+          if (promptContext) {
+            promptContext.textContent = 'Add data for this reasoning task to populate the explorer.';
+          }
+          reasoningBlock.textContent = 'No <think> section captured yet.';
+          reasoningBlock.style.opacity = '0.5';
+          finalAnswer.textContent = '—';
+          taskBadge.textContent = taskType;
+          paradigmBadge.textContent = '—';
+          familyBadge.textContent = '—';
+          tokenSummary.textContent = '—';
+          tokenCount.textContent = '— tokens';
+          tokenBar.style.width = '0%';
+          tokenFootnote.textContent = 'Awaiting cached outputs for this task.';
+          latencySummary.textContent = '—';
+          latencyValue.textContent = '— ms';
+          latencyFootnote.textContent = 'Latency requires a cached output.';
+          paradigmDescription.textContent = 'Pick a reasoning mode to see how the sketch operates.';
+          currentParadigmId = null;
+          return;
+        }
+        const questionId = questionIds[0];
+        const entries = createParadigmButtons(questionId);
+        const remembered = currentParadigmId && entries.find(entry => entry.paradigm_id === currentParadigmId);
+        const targetParadigmId = (remembered && remembered.paradigm_id) || (entries[0] && entries[0].paradigm_id);
+        if (targetParadigmId) {
+          render(questionId, targetParadigmId);
+        } else {
+          currentParadigmId = null;
+        }
+      }
+
+      function createTaskButtons(tasks) {
+        taskGroup.innerHTML = '';
+        tasks.forEach(taskType => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.dataset.taskId = taskType;
+          button.textContent = taskType;
+          styleTaskButton(button, false);
+          button.addEventListener('click', () => {
+            selectTask(taskType);
+          });
+          taskGroup.appendChild(button);
+        });
+      }
+
+      fetch(dataUrl)
+        .then(resp => resp.json())
+        .then(payload => {
+          groupedByQuestion = payload.reduce((map, item) => {
+            if (!map.has(item.question_id)) {
+              map.set(item.question_id, []);
+            }
+            map.get(item.question_id).push(item);
+            return map;
+          }, new Map());
+
+          questionMeta = payload.reduce((map, item) => {
+            if (!map.has(item.question_id)) {
+              map.set(item.question_id, { question: item.question, task_type: item.task_type });
+            }
+            return map;
+          }, new Map());
+
+          questionsByTask = payload.reduce((map, item) => {
+            const list = map.get(item.task_type) || [];
+            if (!list.includes(item.question_id)) {
+              list.push(item.question_id);
+            }
+            map.set(item.task_type, list);
+            return map;
+          }, new Map());
+
+          const tasks = Array.from(questionsByTask.keys()).sort((a, b) => {
+            const ai = taskOrder.indexOf(a);
+            const bi = taskOrder.indexOf(b);
+            if (ai !== -1 && bi !== -1) return ai - bi;
+            if (ai !== -1) return -1;
+            if (bi !== -1) return 1;
+            return a.localeCompare(b);
+          });
+
+          createTaskButtons(tasks);
+
+          const defaultTask = tasks[0];
+          if (defaultTask) {
+            selectTask(defaultTask);
+          }
+        })
+        .catch(err => {
+          questionTitle.textContent = 'Unable to load cached examples.';
+          if (promptContext) {
+            promptContext.textContent = String(err);
+          }
+          reasoningBlock.textContent = 'No <think> section captured yet.';
+          reasoningBlock.style.opacity = '0.5';
+          finalAnswer.textContent = '—';
+          taskBadge.textContent = 'Error';
+          paradigmBadge.textContent = '—';
+          familyBadge.textContent = '—';
+        });
+    </script>
+  </body>
+</html>
