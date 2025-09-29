@@ -62,7 +62,7 @@
                 <span>Measured latency</span>
                 <span id="latencyValue">— ms</span>
               </div>
-              <div id="latencyFootnote" style="font-size:12px;color:#888;line-height:1.4;">Latency captured via GPT-4o API runtime logs.</div>
+              <div id="latencyFootnote" style="font-size:12px;color:#888;line-height:1.4;">Estimated rate at a decoding speed of 35 tkn/s.</div>
             </div>
           </section>
         </div>
@@ -219,14 +219,14 @@
           };
         }
         if (!baseline) {
-          return { headline: `${entry.latency_ms} ms`, detail: `${entry.latency_ms} ms`, footnote: 'Latency captured via GPT-4o API runtime logs.' };
+          return { headline: `${entry.latency_ms} ms`, detail: `${entry.latency_ms} ms`, footnote: 'Estimated rate at a decoding speed of 35 tkn/s.' };
         }
         const delta = entry.latency_ms - baseline.latency_ms;
         const sign = delta <= 0 ? 'faster' : 'slower';
         const value = Math.abs(Math.round(delta));
         const headline = delta === 0 ? 'Matches baseline latency' : `${value} ms ${sign} than CoT`;
         const detail = `${entry.latency_ms} ms (baseline ${baseline.latency_ms} ms)`;
-        const footnote = 'Latency is measured via a GPT-4o API call.';
+        const footnote = 'Estimated rate at a decoding speed of 35 tkn/s.';
         return { headline, detail, footnote };
       }
 
