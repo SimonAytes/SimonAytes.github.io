@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arXiv Query Builder</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        p, ol {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .query-builder {
+            margin-bottom: 20px;
+        }
+        .query-part {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            flex-wrap: nowrap;
+        }
+        .query-part select, .query-part input {
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            flex-grow: 1;
+            min-width: 0; /* Allow the element to shrink */
+        }
+        .query-part button {
+            padding: 10px;
+            border: none;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .query-part .add-query-part-inline {
+            background-color: #2ecc71;
+            margin-left: 10px;
+        }
+        .query-part .add-query-part-inline:hover {
+            background-color: #27ae60;
+        }
+        .query-part button:hover {
+            background-color: #c0392b;
+        }
+        .add-query-part, .test-query {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 5px 0 0;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 16px;
+        }
+        .add-query-part:hover, .test-query:hover {
+            background-color: #2980b9;
+        }
+        .copy-query {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+        .copy-query label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .copy-query input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-right: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap; /* Ensure text wraps */
+            word-wrap: break-word; /* Ensure long words break */
+            font-size: 16px;
+        }
+        .copy-query button {
+            padding: 10px;
+            border: none;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+        .copy-query button:hover {
+            background-color: #27ae60;
+        }
+        .test-query {
+            background-color: #3498db;
+            margin-right: 0;
+            margin-top: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        .test-query:hover {
+            background-color: #2980b9;
+        }
+        .final-query-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .final-query-section h3 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results p {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+        }
+        .note {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .note a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .note a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>arXiv Query Builder</h1>
+        <div id="usage" class="usage">
+            <h2>How to Use the Tool</h2>
+            <p>This tool allows you to build and test queries for the arXiv API. Follow these steps:</p>
+            <ol>
+                <li>Use the dropdown menus and input fields to specify your query parameters. You can add multiple query parts and specify the relationship between them using AND/OR operators.</li>
+                <li>Click the "+" button at the end of the most recent query part to add another part to your query.</li>
+                <li>Click "Test Query" to execute the query and see example results from arXiv.</li>
+                <li>The final query string will be displayed in the "Final Query" box. Click "Copy" to copy this query to your clipboard.</li>
+            </ol>
+        </div>
+        <div id="queryBuilder" class="query-builder">
+            <h2>Query Builder</h2>
+
+            <div class="query-part">
+                <select>
+                    <option value="all">All</option>
+                    <option value="au">Authors</option>
+                    <option value="cat">Categories</option>
+                    <option value="ti">Title</option>
+                    <option value="abs">Abstract</option>
+                    <option value="jr">Journal Reference</option>
+                    <option value="aff">Affiliation</option>
+                </select>
+                <input type="text" placeholder="e.g., quantum computing">
+                <button class="add-query-part-inline" onclick="addQueryPart()">+</button>
+            </div>
+        </div>
+        <button class="test-query" onclick="buildAndTestQuery()">Test Query</button>
+        <br>
+        <br>
+        <h2>Final Query</h2>
+        <div class="final-query-section">
+            <div class="copy-query">
+                <input type="text" id="finalQuery" readonly>
+                <button onclick="copyToClipboard()">Copy</button>
+            </div>
+        </div>
+        <div class="results" id="results"></div>
+        <div class="note">
+            <p>If you encounter any issues, please email <a href="mailto:arxiv.monitor@gmail.com">arxiv.monitor@gmail.com</a>.<br>Created by <a href="https://www.saytes.io">Simon Aytes</a>.</p>
+        </div>
+    </div>
+    <script>
+        function addQueryPart() {
+            const queryBuilder = document.getElementById('queryBuilder');
+            const allQueryParts = queryBuilder.getElementsByClassName('query-part');
+
+            // Remove the "+" button from the last part if it exists
+            if (allQueryParts.length > 0) {
+                const lastQueryPart = allQueryParts[allQueryParts.length - 1];
+                const addButton = lastQueryPart.querySelector('.add-query-part-inline');
+                if (addButton) {
+                    lastQueryPart.removeChild(addButton);
+                }
+            }
+
+            // Create new query part
+            const queryPart = document.createElement('div');
+            queryPart.className = 'query-part';
+            queryPart.innerHTML = `
+                <select>
+                    <option value="all">All</option>
+                    <option value="au">Authors</option>
+                    <option value="cat">Categories</option>
+                    <option value="ti">Title</option>
+                    <option value="abs">Abstract</option>
+                    <option value="jr">Journal Reference</option>
+                    <option value="aff">Affiliation</option>
+                </select>
+                <input type="text" placeholder="e.g., quantum computing">
+                <button onclick="removeQueryPart(this)">-</button>
+                <button class="add-query-part-inline" onclick="addQueryPart()">+</button>
+            `;
+            queryBuilder.appendChild(queryPart);
+
+            // Ensure the second last query part gets the AND/OR operator
+            updateLastQueryPart();
+        }
+
+        function removeQueryPart(button) {
+            const queryPart = button.parentElement;
+            document.getElementById('queryBuilder').removeChild(queryPart);
+            updateLastQueryPart();
+        }
+
+        function updateLastQueryPart() {
+            const queryBuilder = document.getElementById('queryBuilder');
+            const allQueryParts = queryBuilder.getElementsByClassName('query-part');
+
+            // Remove all AND/OR dropdowns
+            for (let part of allQueryParts) {
+                const operator = part.querySelector('select.and-or');
+                if (operator) {
+                    part.removeChild(operator);
+                }
+            }
+
+            // Add AND/OR dropdown to the second last part if it exists
+            if (allQueryParts.length > 1) {
+                const secondLastQueryPart = allQueryParts[allQueryParts.length - 2];
+                const operatorSelect = document.createElement('select');
+                operatorSelect.className = 'and-or';
+                operatorSelect.innerHTML = `
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                `;
+                secondLastQueryPart.insertBefore(operatorSelect, secondLastQueryPart.querySelector('button'));
+            }
+
+            // Ensure the last part has a "+" button
+            if (allQueryParts.length > 0) {
+                const lastQueryPart = allQueryParts[allQueryParts.length - 1];
+                const addButton = lastQueryPart.querySelector('.add-query-part-inline');
+                if (!addButton) {
+                    const addButton = document.createElement('button');
+                    addButton.className = 'add-query-part-inline';
+                    addButton.textContent = '+';
+                    addButton.onclick = addQueryPart;
+                    lastQueryPart.appendChild(addButton);
+                }
+            }
+        }
+
+        function buildAndTestQuery() {
+            // Clear previous results
+            document.getElementById('results').innerHTML = '';
+
+            const queryParts = [];
+            const queryBuilder = document.getElementById('queryBuilder');
+            const queryPartElements = queryBuilder.getElementsByClassName('query-part');
+            for (let part of queryPartElements) {
+                const field = part.getElementsByTagName('select')[0].value;
+                const value = part.getElementsByTagName('input')[0].value;
+                const operatorElement = part.getElementsByTagName('select')[1];
+                const operator = operatorElement ? operatorElement.value : '';
+                if (value) {
+                    queryParts.push(`${field}:${value}`);
+                    if (operator) {
+                        queryParts.push(operator);
+                    }
+                }
+            }
+            if (queryParts.length > 0 && (queryParts[queryParts.length - 1] === 'AND' || queryParts[queryParts.length - 1] === 'OR')) {
+                queryParts.pop(); // Remove the trailing operator
+            }
+            const query = queryParts.join(' ');
+            document.getElementById('finalQuery').value = query;
+
+            fetch(`http://export.arxiv.org/api/query?search_query=${encodeURIComponent(query)}&start=0&max_results=5`)
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(data, "text/xml");
+                    const entries = xmlDoc.getElementsByTagName('entry');
+                    if (entries.length === 0) {
+                        document.getElementById('results').innerHTML = '<p style="color: red;">No results found.</p>';
+                    } else {
+                        let results = '<h3>Example Results:</h3>';
+                        for (let i = 0; i < entries.length; i++) {
+                            const title = entries[i].getElementsByTagName('title')[0].textContent;
+                            const published = entries[i].getElementsByTagName('published')[0].textContent;
+                            const authors = Array.from(entries[i].getElementsByTagName('author'))
+                                .map(author => author.getElementsByTagName('name')[0].textContent)
+                                .join(', ');
+
+                            results += `
+                                <div style="padding: 10px; background-color: #ecf0f1; border-radius: 4px; margin-bottom: 10px;">
+                                    <strong>${title}</strong>
+                                    <br><em>Published:</em> ${new Date(published).toLocaleDateString()}
+                                    <br><em>Authors:</em> ${authors}
+                                </div>`;
+                        }
+                        document.getElementById('results').innerHTML = results;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${error}</p>`;
+                });
+        }
+
+        function copyToClipboard() {
+            const queryField = document.getElementById('finalQuery');
+            queryField.select();
+            document.execCommand('copy');
+            alert('Query copied to clipboard!');
+        }
+
+        // Initialize by updating the last query part
+        updateLastQueryPart();
+    </script>
+</body>
+</html>
