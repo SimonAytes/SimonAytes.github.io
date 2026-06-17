@@ -3,54 +3,60 @@ title: Invoice Intelligence System
 client: Confidential SMB client
 role: Lead Engineer
 date: 2025
-summary: A production document-intelligence system that turns messy, multi-format invoices into dependable structured data, processing roughly 3,000 documents a month across more than 100 vendor layouts.
-tags: [LLM OCR, Structured outputs, Pydantic, Automation]
+summary: A production document-intelligence system responsible for overhauling a time consuming manual process for a small business, saving over 2,000 working hours and roughly $30,000 per year.
+tags: [LLM, OCR, Automation]
 confidential: true
 ---
 
 ## Context
 
-The client received invoices from a long tail of vendors, each with its own layout,
-terminology, and quirks. Their existing process was manual: a small team rekeyed line
-items into the accounting system by hand. That approach capped throughput, introduced
-transcription errors, and made month-end reconciliation slow.
+The client received invoices from 100+ different vendors, each with its own layout, terminology,
+and quirks. Their existing process was manual: an employee checked a shared Outlook inbox daily,
+downloaded every invoice PDF, renamed it to match an internal purchase order number, uploaded it
+to SharePoint, and then verified and updated the corresponding record in their Microsoft Business
+Central ERP by hand. That six-step loop repeated for every invoice that arrived, roughly 3,000
+per month.
 
-The goal was a system that could ingest an invoice in whatever form it arrived and return
-structured, validated data the downstream accounting workflow could trust without a human
-re-checking every field.
+## Problem
 
-## The core problem
+The approach capped throughput, introduced transcription errors, and created staffing uncertainty.
+Invoice volume fluctuates, and a 30% spike in a given month could demand 40 or more additional
+hours with no notice.
 
-Document extraction is easy to demo and hard to ship. A prototype that handles the ten
-invoices you tested with says little about the hundredth vendor format you have never seen.
-Two failure modes dominated:
+Furthermore, document processing at-scale is hard to get right. For this client, two specific failure modes dominated:
 
-1. Layout drift. Vendors change templates, add surcharges, or restructure line items.
-2. Silent wrongness. A plausible-looking number in the wrong field is worse than an obvious
-   blank, because it passes review and corrupts the books.
+1. **Layout drift.** Vendors change templates, add surcharges, or restructure line items without
+   warning. A rule-based parser breaks silently; you find out when someone notices the numbers
+   are wrong.
+2. **Software limitations.** Existing solutions in this space could either process documents from
+   a fixed, structured format or integrate with an ERP system, not both. None could handle
+   unstructured, vendor-generated invoices and push the result directly into Business Central.
 
-The system had to be resilient to the first and loud about the second.
+<Callout title="Goal">
+A system that could ingest an invoice in whatever form it
+arrived and transform it into structured data that could be validated against existing ERP
+records, only flagging genuine mismatches for human review.
+</Callout>
 
 ## Approach
 
-I built the pipeline around LLM-driven OCR feeding a structured-output stage constrained by
-explicit schemas. Rather than parsing each vendor layout with bespoke rules, the model reads
-the document and emits data shaped to a fixed contract.
+I built the pipeline around LLM-driven document extraction feeding a structured-output stage
+constrained by explicit schemas. Rather than parsing each vendor layout with bespoke rules, the
+model reads the document and emits data shaped to a fixed contract.
 
-<Callout title="Design principle">
-Validation is the product. The extraction model proposes; the schema disposes. Every field
-that reaches the accounting system has passed a typed, business-rule-aware check, and anything
-that fails is routed to review instead of written silently.
-</Callout>
+The end-to-end flow runs automatically on a time-based trigger: incoming invoice PDFs are
+extracted, validated against Business Central, the renamed PDF is uploaded to SharePoint, and a
+success or failure record is written to a database for visibility. A daily digest email summarizes
+the run for the team. I also built a companion admin portal that gives the team a
+full audit trail, the ability to review flagged invoices, and job history exports.
 
 ### Schema-constrained extraction
 
 Each invoice is resolved against a Pydantic schema describing the fields the business actually
 uses: vendor identity, line items, quantities, unit prices, totals, tax, and dates. The schema
-encodes business rules directly, so an extraction where line items do not sum to the stated
-total is rejected at the boundary rather than discovered three steps later.
+encodes business rules directly, making programmatic validation straightforward.
 
-### Handling the long tail
+### Adaptable by nature
 
 Because the model works from the document's content rather than a per-vendor template, adding a
 new vendor format usually costs nothing. The system absorbed new layouts as they appeared
@@ -59,19 +65,29 @@ formats.
 
 ## Results
 
-The figures below are representative of the deployed system's steady-state operation.
+The figures below are representative of the deployed system's steady-state operation 6 months after first release:
 
-- Roughly 3,000 invoices processed per month with no per-vendor configuration.
-- More than 100 distinct vendor layouts handled by a single extraction path.
-- Manual rekeying reduced to an exception-handling queue for the small fraction of documents
-  that fail validation.
+- Roughly 3,000 invoices processed per month
+- Per-invoice processing cost of $0.02 (approx. $60 per month)
+- More than 100 distinct vendor layouts
+- \>90% straight-through rate for received invoices
+- Over 2,000 working hours returned to the team per year.
 
-The team's time shifted from transcription to reviewing the handful of flagged edge cases,
-which is where human judgment actually adds value.
+The team's time shifted from manual transcription to reviewing genuine mismatches, the cases
+where human judgment actually matters.
 
-## What I would carry forward
+## Retrospective
 
-The lesson that generalized best: treat the model's output as a proposal and put the
-correctness burden on a validation layer you fully control. The schema is the contract, the
-review queue is the safety valve, and the model is free to be merely very good rather than
-perfect.
+The most important insight was about failure visibility. An invoice that fails silently is worse
+than one that fails loudly. It enters the system wrong and surfaces weeks later during audits, and
+requires more time to resolve. Every error path in the system routes to the review queue and the daily digest,
+so nothing goes unnoticed. That design decision, more than any accuracy improvement, is what
+made the system trustworthy enough to run in production.
+
+## Tech Stack
+
+<TechStack>
+  <TechRow category="Languages" tools="Python (backend), TypeScript (frontend)" />
+  <TechRow category="Tools" tools="OpenAI SDK, Microsoft Graph API" />
+  <TechRow category="Infra" tools="AWS EC2, SQLite" />
+</TechStack>

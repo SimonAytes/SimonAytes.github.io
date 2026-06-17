@@ -84,18 +84,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           {meta.summary && (
             <p className="mt-5 text-lg leading-relaxed text-text/80">{meta.summary}</p>
           )}
-          {meta.tags.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-2">
-              {meta.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-md border border-hairline px-2 py-1 font-mono text-[0.65rem] text-dim"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          )}
         </header>
 
         {meta.cover && (

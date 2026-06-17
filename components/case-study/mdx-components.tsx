@@ -34,6 +34,27 @@ export function Callout({ title, children }: CalloutProps) {
   );
 }
 
+export function TechStack({ children }: { children: ReactNode }) {
+  return (
+    <div className="not-prose my-6 overflow-hidden rounded-xl border border-hairline">
+      <table className="w-full text-sm">
+        <tbody>{children}</tbody>
+      </table>
+    </div>
+  );
+}
+
+export function TechRow({ category, tools }: { category: string; tools: string }) {
+  return (
+    <tr className="border-b border-hairline last:border-0">
+      <td className="w-36 px-4 py-3 font-mono text-xs font-medium uppercase tracking-[0.14em] text-dim">
+        {category}
+      </td>
+      <td className="px-4 py-3 text-text/80">{tools}</td>
+    </tr>
+  );
+}
+
 type FigureProps = { src: string; alt: string; caption?: string };
 
 export function Figure({ src, alt, caption }: FigureProps) {
@@ -53,4 +74,6 @@ export const mdxComponents = {
   img: MdxImage,
   Callout,
   Figure,
+  TechStack,
+  TechRow,
 };

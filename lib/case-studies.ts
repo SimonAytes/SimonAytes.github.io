@@ -11,7 +11,6 @@ export type CaseStudyMeta = {
   role?: string;
   date?: string;
   summary?: string;
-  tags: string[];
   confidential: boolean;
   cover?: string;
   coverAlt?: string;
@@ -36,7 +35,6 @@ function readFrontmatter(slug: string): CaseStudySource | null {
     role: data.role ? String(data.role) : undefined,
     date: data.date ? String(data.date) : undefined,
     summary: data.summary ? String(data.summary) : undefined,
-    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     // Confidential by default; opt out per file with `confidential: false`.
     confidential: data.confidential !== false,
     cover: data.cover ? String(data.cover) : undefined,

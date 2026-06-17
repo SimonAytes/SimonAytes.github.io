@@ -40,3 +40,22 @@ are available inside MDX without importing them:
 - `<Figure src="/path.png" alt="…" caption="Optional caption" />` — captioned image.
 
 Links and images are styled and given correct external-link behavior automatically.
+
+## Format
+
+
+---
+title: Invoice Intelligence System
+client: Confidential SMB client
+role: Lead Engineer
+date: 2025
+summary: A production document-intelligence system that turns messy, multi-format invoices into dependable structured data, processing roughly 3,000 documents a month across more than 100 vendor layouts.
+tags: [LLM OCR, Structured outputs, Pydantic, Automation]
+confidential: true
+---
+
+- Context
+- Problem
+- Approach
+- Results
+- Retrospective
