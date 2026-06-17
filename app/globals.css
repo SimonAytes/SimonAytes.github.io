@@ -1,0 +1,98 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-bg: #0E0F11;
+  --color-surface: #181A1D;
+  --color-text: #F4F1EC;
+  --color-dim: #9A9CA0;
+  --color-brand: #E8A148;
+  --color-hairline: rgba(244, 241, 236, 0.10);
+
+  --font-serif: var(--font-fraunces), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+
+  --max-width-content: 64rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-hairline);
+  }
+  html {
+    @apply font-sans;
+  }
+
+  /* Consistent, branded keyboard focus across interactive elements. */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Case-study long-form prose, mapped to the site's tokens. */
+.prose-site {
+  --tw-prose-body: rgba(244, 241, 236, 0.8);
+  --tw-prose-headings: var(--color-text);
+  --tw-prose-lead: rgba(244, 241, 236, 0.8);
+  --tw-prose-links: var(--color-brand);
+  --tw-prose-bold: var(--color-text);
+  --tw-prose-counters: var(--color-dim);
+  --tw-prose-bullets: var(--color-dim);
+  --tw-prose-hr: var(--color-hairline);
+  --tw-prose-quotes: var(--color-text);
+  --tw-prose-quote-borders: var(--color-brand);
+  --tw-prose-captions: var(--color-dim);
+  --tw-prose-code: var(--color-text);
+  --tw-prose-pre-code: var(--color-text);
+  --tw-prose-pre-bg: var(--color-surface);
+  --tw-prose-th-borders: var(--color-hairline);
+  --tw-prose-td-borders: var(--color-hairline);
+}
+
+.prose-site :where(h1, h2, h3, h4) {
+  font-family: var(--font-serif);
+  font-weight: 500;
+}
+
+.prose-site :where(code):not(:where(pre *)) {
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.prose-site :where(pre) {
+  border: 1px solid var(--color-hairline);
+}

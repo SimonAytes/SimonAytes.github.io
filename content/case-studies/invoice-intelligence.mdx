@@ -1,0 +1,77 @@
+---
+title: Invoice Intelligence System
+client: Confidential SMB client
+role: Lead Engineer
+date: 2025
+summary: A production document-intelligence system that turns messy, multi-format invoices into dependable structured data, processing roughly 3,000 documents a month across more than 100 vendor layouts.
+tags: [LLM OCR, Structured outputs, Pydantic, Automation]
+confidential: true
+---
+
+## Context
+
+The client received invoices from a long tail of vendors, each with its own layout,
+terminology, and quirks. Their existing process was manual: a small team rekeyed line
+items into the accounting system by hand. That approach capped throughput, introduced
+transcription errors, and made month-end reconciliation slow.
+
+The goal was a system that could ingest an invoice in whatever form it arrived and return
+structured, validated data the downstream accounting workflow could trust without a human
+re-checking every field.
+
+## The core problem
+
+Document extraction is easy to demo and hard to ship. A prototype that handles the ten
+invoices you tested with says little about the hundredth vendor format you have never seen.
+Two failure modes dominated:
+
+1. Layout drift. Vendors change templates, add surcharges, or restructure line items.
+2. Silent wrongness. A plausible-looking number in the wrong field is worse than an obvious
+   blank, because it passes review and corrupts the books.
+
+The system had to be resilient to the first and loud about the second.
+
+## Approach
+
+I built the pipeline around LLM-driven OCR feeding a structured-output stage constrained by
+explicit schemas. Rather than parsing each vendor layout with bespoke rules, the model reads
+the document and emits data shaped to a fixed contract.
+
+<Callout title="Design principle">
+Validation is the product. The extraction model proposes; the schema disposes. Every field
+that reaches the accounting system has passed a typed, business-rule-aware check, and anything
+that fails is routed to review instead of written silently.
+</Callout>
+
+### Schema-constrained extraction
+
+Each invoice is resolved against a Pydantic schema describing the fields the business actually
+uses: vendor identity, line items, quantities, unit prices, totals, tax, and dates. The schema
+encodes business rules directly, so an extraction where line items do not sum to the stated
+total is rejected at the boundary rather than discovered three steps later.
+
+### Handling the long tail
+
+Because the model works from the document's content rather than a per-vendor template, adding a
+new vendor format usually costs nothing. The system absorbed new layouts as they appeared
+without code changes for each one, which is what kept it viable across more than a hundred
+formats.
+
+## Results
+
+The figures below are representative of the deployed system's steady-state operation.
+
+- Roughly 3,000 invoices processed per month with no per-vendor configuration.
+- More than 100 distinct vendor layouts handled by a single extraction path.
+- Manual rekeying reduced to an exception-handling queue for the small fraction of documents
+  that fail validation.
+
+The team's time shifted from transcription to reviewing the handful of flagged edge cases,
+which is where human judgment actually adds value.
+
+## What I would carry forward
+
+The lesson that generalized best: treat the model's output as a proposal and put the
+correctness burden on a validation layer you fully control. The schema is the contract, the
+review queue is the safety valve, and the model is free to be merely very good rather than
+perfect.
