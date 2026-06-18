@@ -31,6 +31,7 @@ export const work: WorkItem[] = [
     tags: ['FastAPI', 'React', 'AWS ECS', 'MCP'],
     kind: 'proprietary',
     links: [],
+    caseStudy: 'ai-tooling-platform',
   },
   {
     title: 'Invoice intelligence system',

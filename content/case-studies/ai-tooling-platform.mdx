@@ -1,0 +1,102 @@
+---
+title: Company-Wide AI Tooling Platform
+client:
+role: AI & Software Engineer
+date: 2026
+summary: A distributed, API-first platform that replaced notebook-bound data science tools with independently scaling services. It now handles 1,500+ analysis runs a month across 180+ users, and exposes every tool to both people and AI agents.
+tags: [Distributed systems, API Design, MCP]
+confidential: true
+---
+
+## Context
+
+The company distributed its data science tools to analysts through a single internal surface. Each
+tool was published as a Voila-rendered Jupyter notebook, and every notebook ran on one shared EC2
+instance. The approach succeeded at its original goal of standardizing how tools reached analysts,
+but it was built for a handful of tools and a handful of users.
+
+As the catalog grew and usage climbed, the architecture that made early distribution easy became the
+thing holding the platform back.
+
+## Problem
+
+Four distinct issues emerged as the platform scaled, each rooted in the same foundational
+architecture issues:
+
+1. **Robustness.** There were no shared standards or quality controls across tool codebases. Each
+   tool was its own notebook with its own conventions, and the result was a steady stream of
+   outages, errors, and user-facing breakage.
+2. **Scalability.** Voila-rendered notebooks have brittle, error-prone setup and deployment
+   procedures. Shipping or updating a tool was manual and fragile.
+3. **Compute and cost.** Every tool ran on a single EC2 instance. There was no way to toggle tools
+   on and off, balance load, or allocate compute to the work that actually needed it. The instance
+   ran whether anyone was using it or not.
+4. **Integration.** The platform exposed no API. Tools could be used by a human in a browser and
+   nowhere else, which made them unreachable by other internal products or by AI agents.
+
+<Callout title="Goal">
+A system where each tool runs independently, scales on demand, and is reachable through a single
+API, by people and AI agents alike, rather than confined to a notebook.
+</Callout>
+
+## Approach
+
+I rebuilt the platform as a distributed system that fully separates the tools from their
+orchestrator. The API layer and each tool became independently deployable containers, coordinated
+through a central job queue rather than co-located in one process.
+
+<Figure
+  src="/case-studies/ai-tooling-platform-architecture.png"
+  alt="Architecture diagram of the single-tool request flow. A user calls the API gateway, which writes to a job queue and reads and writes reports and files in the database. A tool worker polls the queue, then reads and persists reports and files."
+  caption="Single-tool request flow."
+/>
+
+### Distributed and scalable
+
+The system runs as three kinds of containers: an API service, a scale-to-zero pool of workers, and a
+PostgreSQL database. When a user submits a job through the API, an entry is written to a job queue.
+Worker provisioning is automated through AWS EventBridge and ECS where a reconciler spins workers
+up and down on demand, replacing the always-on single instance with compute that exists
+only while there is work to do. Workers are horizontally scalable by nature, so the
+capacity for any single tool is just a matter of how many of its workers are running.
+
+### Tools as code
+
+The robustness problems came from every tool being a bespoke notebook with disparate requirements
+and redundant logic. Each tool is now a standardized repository whose entrypoint exposes three
+things: a tool definition with its metadata, an input form schema, and a `run()` method the worker
+invokes. On top of that sits a widget system that gives every tool a uniform, Pydantic-validated
+input and output surface. Because inputs are validated against the schema before execution begins,
+preventing downstream validation issues during tool execution.
+
+### Built for agents, not just people
+
+The platform is API-first, and report storage is durable. Together those two properties change what
+a "tool run" is. While initially a report was lost when the browser was refreshed, now a report generated
+by an AI agent can be opened later by a person in their history, and a report a person creates can be
+read back by an agent. A companion MCP server exposes the same catalog to agents directly,
+so a tool written once is immediately reachable by both audiences without any tool-specific
+integration work.
+
+## Results
+
+The platform replaced the always-on and volatile Voila server setup with a system that
+scales reliably with demand:
+
+- Roughly 1,500 analysis runs per month
+- More than 180 monthly active users across the organization
+- 10 tools fully migrated to the new system
+
+## Retrospective
+
+The highest-leverage decision was representing each tool as a verifiable data model rather than a free-form
+notebook. A standardized entrypoint and a validated widget schema os what made the whole system work,
+and they became natively API- and agent-reachable because every tool utilizes the same interface.
+
+## Tech Stack
+
+<TechStack>
+  <TechRow category="Languages" tools="Python (backend), TypeScript / React (frontend)" />
+  <TechRow category="Tools" tools="FastAPI, MCP server, Pydantic" />
+  <TechRow category="Infra" tools="AWS ECS, AWS EventBridge, Amazon S3, PostgreSQL, Docker" />
+</TechStack>
