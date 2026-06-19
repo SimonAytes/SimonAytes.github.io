@@ -33,7 +33,7 @@ export const experience: Experience[] = [
     dates: 'Feb 2024 – Dec 2025',
     role: 'Graduate Research Assistant',
     narrative:
-      "At KAIST's MLAI Lab, I worked on efficient LLM reasoning and test-time compute. The work built out the research side of my practice — reading fast, testing ideas rigorously, and turning model-behavior questions into concrete methods evaluated against real reasoning workloads.",
+      "At KAIST's MLAI Lab, I worked on efficient LLM reasoning and test-time compute. The work built out the research side of my practice: reading fast, testing ideas rigorously, and turning model-behavior questions into concrete methods evaluated against real reasoning workloads.",
     highlights: [
       'First-authored Sketch-of-Thought, an EMNLP 2025 paper on efficient LLM reasoning.',
       'Developed an inference-time method that reduced reasoning tokens by roughly 84% on average.',

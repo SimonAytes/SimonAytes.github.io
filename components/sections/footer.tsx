@@ -1,7 +1,5 @@
-import { socials } from '@/data/socials';
+import Link from 'next/link';
 import { site } from '@/data/site';
-import { externalLinkProps } from '@/lib/links';
-import { SocialIcon } from '@/components/social-icon';
 
 export function Footer() {
   return (
@@ -10,19 +8,12 @@ export function Footer() {
         <span className="font-mono text-xs text-dim">
           © {new Date().getFullYear()} {site.name}
         </span>
-        <nav className="flex flex-wrap gap-x-5 gap-y-2.5">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              {...externalLinkProps(s.href)}
-              className="inline-flex items-center gap-2 text-sm font-medium text-dim transition hover:text-brand"
-            >
-              <SocialIcon name={s.icon} className="h-[18px] w-[18px]" />
-              {s.label}
-            </a>
-          ))}
-        </nav>
+        <Link
+          href="/privacy/"
+          className="font-mono text-xs text-dim transition hover:text-brand"
+        >
+          Privacy Policy
+        </Link>
       </div>
     </footer>
   );
