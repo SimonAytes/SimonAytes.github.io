@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SITE_URL } from "@/lib/seo";
+
+const GA_MEASUREMENT_ID = "G-L4X6RL1VFB";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -87,7 +90,21 @@ export default function RootLayout({
       lang="en"
       className={`h-full antialiased ${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}
     >
-      <body className="min-h-full font-sans">{children}</body>
+      <body className="min-h-full font-sans">
+        {children}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+      </body>
     </html>
   );
 }
