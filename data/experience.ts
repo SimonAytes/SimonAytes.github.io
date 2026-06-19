@@ -17,7 +17,7 @@ export const experience: Experience[] = [
     dates: '2021 – 2024, 2026 – Present',
     role: 'Senior Data Scientist / Data Scientist',
     narrative:
-      'Penta is a global strategy and communications consultancy where my work has moved from client-facing NLP and media-intelligence systems into company-wide AI tooling. Across both stints, the through line has been embedded engineering: understanding analyst workflows, finding the right technical shape for ambiguous needs, and shipping tools that hold up in live client delivery.',
+      'Penta is a global strategy and communications consultancy where my work has moved from client-facing NLP and media-intelligence systems into company-wide AI tooling. Across both stints, the common thread has been embedded engineering: understanding analyst workflows, finding the right technical shape for ambiguous needs, and shipping tools that hold up in live client delivery.',
     highlights: [
       'Built NLP and social-listening systems for media intelligence across social and traditional news data.',
       'Returned to design and ship internal AI tooling used by analysts across the company.',
@@ -33,7 +33,7 @@ export const experience: Experience[] = [
     dates: 'Feb 2024 – Dec 2025',
     role: 'Graduate Research Assistant',
     narrative:
-      "At KAIST's MLAI Lab, I worked on efficient LLM reasoning and test-time compute. The work sharpened the research side of my AI practice: reading quickly, testing ideas rigorously, and turning model-behavior questions into concrete methods that can be evaluated against real reasoning workloads.",
+      "At KAIST's MLAI Lab, I worked on efficient LLM reasoning and test-time compute. The work built out the research side of my practice — reading fast, testing ideas rigorously, and turning model-behavior questions into concrete methods evaluated against real reasoning workloads.",
     highlights: [
       'First-authored Sketch-of-Thought, an EMNLP 2025 paper on efficient LLM reasoning.',
       'Developed an inference-time method that reduced reasoning tokens by roughly 84% on average.',
@@ -66,9 +66,9 @@ export const experience: Experience[] = [
     narrative:
       "At The Wall Street Journal, I worked on applied machine learning for editorial analytics. The fellowship was an early exposure to building against a real product environment: using internal content data, preparing training sets from production databases, and framing model outputs around decisions an editorial team might actually care about.",
     highlights: [
-      'Designed and trained a ML model to predict article performance based on its headline.',
+      'Designed and trained an ML model to predict article performance based on its headline.',
       "Trained a model on 13,000+ metadata-rich articles from WSJ's content databases.",
-      'Embeded with the News Insights team to develop data-driven solutions for Journalists.',
+      'Embedded with the News Insights team to develop data-driven solutions for journalists.',
     ],
     // url: 'https://www.wsj.com',
     url: null,

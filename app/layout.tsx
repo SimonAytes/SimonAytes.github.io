@@ -23,7 +23,7 @@ const jetbrains = JetBrains_Mono({
 
 const TITLE = "Simon Aytes | AI Engineering";
 const DESCRIPTION =
-  "Simon Aytes works across AI engineering, LLM systems, and applied research, turning business needs into reliable technical systems.";
+  "Simon Aytes builds LLM systems and applied AI tools — from research through production deployment.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

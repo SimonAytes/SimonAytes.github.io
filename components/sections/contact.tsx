@@ -7,7 +7,7 @@ export function Contact() {
     <section id="contact" className="mx-auto max-w-content px-6 py-20">
       <SectionLabel>Contact</SectionLabel>
       <p className="mt-4 max-w-[20ch] font-serif text-3xl text-text md:text-4xl">
-        If you think we could work well together, feel free to reach out.
+        If you think we'd work well together, get in touch.
       </p>
       <div className="mt-6 flex flex-wrap gap-4">
         <a
