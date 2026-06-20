@@ -13,7 +13,7 @@ export type WorkItem = {
 
 export const work: WorkItem[] = [
   {
-    title: 'Sketch-of-Thought',
+    title: 'Sketch-of-Thought (SoT)',
     blurb:
       'Efficient LLM reasoning via cognitive-inspired sketching. A training-free, inference-time method that cuts reasoning tokens by roughly 84% on average. First author, EMNLP 2025.',
     tags: ['Publication', 'LLM reasoning', 'EMNLP 2025'],
