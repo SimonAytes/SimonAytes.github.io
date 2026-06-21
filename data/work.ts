@@ -21,7 +21,7 @@ export const work: WorkItem[] = [
     links: [
       { label: 'Paper', href: 'https://arxiv.org/abs/2503.05179' },
       { label: 'GitHub', href: 'https://github.com/SimonAytes/SoT' },
-      { label: 'Demo', href: 'https://saytes.io/projects/sot' }, // Leave this as external link so it opens in a new tab
+      { label: 'Demo', href: '/projects/sot/' },
     ],
   },
   {

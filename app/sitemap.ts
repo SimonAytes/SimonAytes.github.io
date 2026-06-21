@@ -23,6 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...caseStudies,
     {
+      url: `${SITE_URL}/projects/sot/`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.6,
+    },
+    {
       url: `${SITE_URL}/privacy/`,
       lastModified: now,
       changeFrequency: 'yearly',
