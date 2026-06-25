@@ -43,13 +43,14 @@ export const work: WorkItem[] = [
     caseStudy: 'invoice-intelligence',
   },
   {
-    title: 'Public records extraction pipeline',
+    title: 'Multi-agent Reputational Analysis',
     blurb:
-      'Automated pipeline for public-interest research on indigent burials, turning scattered state and local records into a structured dataset for feasibility analysis. The work supported research into how the pandemic and opioid crisis affected public burial systems.',
-    tags: ['Data extraction', 'Public records', 'Research'],
+      'Doxa: an open-source multi-agent system that conducts a reputational SWOT analysis. Pulls from real-time news media streams to analyze reputation and identify risks and opportunities.',
+    tags: ['Multi-agent', 'LLM'],
     kind: 'research',
+    caseStudy: 'doxa',
     links: [
-      { label: 'Paper', href: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC11769727/#:~:text=We%20would%20like%20to%20acknowledge%20Simon%20Aytes%20who%20wrote%20the%20Python%20code%20to%20scrape%20publicly%20available%20websites%3B' },
+      { label: 'GitHub', href: 'https://github.com/SimonAytes/doxa-reputation-agent' },
     ],
   },
 ];
