@@ -14,6 +14,7 @@ export type CaseStudyMeta = {
   confidential: boolean;
   cover?: string;
   coverAlt?: string;
+  github?: string;
 };
 
 export type CaseStudySource = {
@@ -39,6 +40,7 @@ function readFrontmatter(slug: string): CaseStudySource | null {
     confidential: data.confidential !== false,
     cover: data.cover ? String(data.cover) : undefined,
     coverAlt: data.coverAlt ? String(data.coverAlt) : undefined,
+    github: data.github ? String(data.github) : undefined,
   };
 
   return { meta, body: content };
