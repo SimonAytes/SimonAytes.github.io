@@ -21,7 +21,7 @@ type CalloutProps = { title?: string; children: ReactNode };
 
 export function Callout({ title, children }: CalloutProps) {
   return (
-    <div className="not-prose my-6 rounded-xl border border-hairline border-l-2 border-l-brand bg-surface px-5 py-4">
+    <div className="not-prose my-6 rounded-xl border border-hairline bg-surface px-5 py-4">
       {title && (
         <p className="mb-1 font-mono text-xs font-medium uppercase tracking-[0.14em] text-brand">
           {title}

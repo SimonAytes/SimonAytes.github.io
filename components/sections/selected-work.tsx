@@ -13,22 +13,12 @@ export function SelectedWork() {
         {work.map((w, i) => (
           <article
             key={`${w.title}-${i}`}
-            className="rounded-xl border border-hairline bg-surface p-6"
+            className="flex flex-col rounded-xl border border-hairline bg-surface p-6"
           >
             <h3 className="font-serif text-xl text-text">{w.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-text/80">{w.blurb}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {w.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-md border border-hairline px-2 py-1 font-mono text-[0.65rem] text-dim"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+            <p className="mt-3 text-sm leading-relaxed text-pretty text-text/80">{w.blurb}</p>
             {(w.links.length > 0 || w.caseStudy) && (
-              <div className="mt-4 flex flex-wrap items-center gap-4">
+              <div className="mt-auto flex flex-wrap items-center gap-4 pt-4">
                 {w.links.map((l) => (
                   <a
                     key={l.label}

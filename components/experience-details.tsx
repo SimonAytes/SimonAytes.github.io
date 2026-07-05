@@ -22,7 +22,9 @@ export function ExperienceDetails({ item }: { item: Experience }) {
       <div className="px-4 pb-4 sm:px-5 sm:pb-5">
         <h3 className="font-serif text-lg text-text">{item.company}</h3>
         {item.role && <p className="mt-1 font-mono text-xs text-dim">{item.role}</p>}
-        <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-text/85">{item.narrative}</p>
+        <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-pretty text-text/85">
+          {item.narrative}
+        </p>
         {item.highlights && (
           <ul className="mt-4 grid gap-2 text-sm leading-relaxed text-text/80">
             {item.highlights.map((highlight) => (

@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Simon Aytes — AI & Forward-Deployed Engineering",
+        alt: "Simon Aytes, AI & Forward-Deployed Engineering",
       },
     ],
   },

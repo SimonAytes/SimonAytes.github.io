@@ -14,7 +14,7 @@ export const experience: Experience[] = [
     company: 'Penta Group',
     logo: '/logos/penta.svg',
     logo_mobile: '/logos/penta_mobile.svg',
-    dates: '2021 – 2024, 2026 – Present',
+    dates: '2021-2024, 2026-Present',
     role: 'Senior Data Scientist / Data Scientist',
     narrative:
       'Penta is a global strategy and communications consultancy where my work has moved from client-facing NLP and media-intelligence systems into company-wide AI tooling. Across both stints, the common thread has been embedded engineering: understanding analyst workflows, finding the right technical shape for ambiguous needs, and shipping tools that hold up in live client delivery.',
@@ -30,7 +30,7 @@ export const experience: Experience[] = [
     company: 'KAIST MLAI Lab',
     logo: '/logos/kaist.svg',
     logo_mobile: '/logos/kaist_mobile.svg',
-    dates: 'Feb 2024 – Dec 2025',
+    dates: 'Feb 2024-Dec 2025',
     role: 'Graduate Research Assistant',
     narrative:
       "At KAIST's MLAI Lab, I worked on efficient LLM reasoning and test-time compute. The work built out the research side of my practice: reading fast, testing ideas rigorously, and turning model-behavior questions into concrete methods evaluated against real reasoning workloads.",
@@ -46,7 +46,7 @@ export const experience: Experience[] = [
     company: 'Lighthouse Analytics',
     logo: '/logos/freelance.svg',
     logo_mobile: '/logos/freelance_mobile.svg',
-    dates: 'Jan 2025 – Present',
+    dates: 'Jan 2025-Present',
     role: 'AI Engineering Consultant',
     narrative:
       'Lighthouse Analytics is the name I use for independent AI engineering work. The main engagement was a production invoice-intelligence system for a small-business client, scoped from discovery with non-technical stakeholders through rollout. It used LLM-driven OCR, OpenAI structured outputs, and Pydantic schemas to turn messy vendor documents into dependable business data.',
@@ -61,7 +61,7 @@ export const experience: Experience[] = [
     company: 'The Wall Street Journal',
     logo: '/logos/wsj.svg',
     logo_mobile: '/logos/wsj_mobile.svg',
-    dates: 'Aug 2021 – Dec 2021',
+    dates: 'Aug 2021-Dec 2021',
     role: 'Journo-Tech Fellow',
     narrative:
       "At The Wall Street Journal, I worked on applied machine learning for editorial analytics. The fellowship was an early exposure to building against a real product environment: using internal content data, preparing training sets from production databases, and framing model outputs around decisions an editorial team might actually care about.",
@@ -77,7 +77,7 @@ export const experience: Experience[] = [
     company: 'NASA Langley Research Center',
     logo: '/logos/nasa.svg',
     logo_mobile: '/logos/nasa_mobile.svg',
-    dates: '2019 – 2021',
+    dates: '2019-2021',
     role: 'Development Intern',
     narrative:
       'Across several internships at NASA Langley, I built AR and VR tools for researchers working with 3D data. The work combined software development, data visualization, and user research: talking with researchers, understanding how they inspected technical data, and turning those workflows into interactive Unity prototypes.',
@@ -93,7 +93,7 @@ export const experience: Experience[] = [
     company: 'York College, CUNY',
     logo: '/logos/york.svg',
     logo_mobile: '/logos/york_mobile.svg',
-    dates: 'May 2022 – Oct 2022',
+    dates: 'May 2022-Oct 2022',
     role: 'Researcher',
     narrative:
       'At York College, I supported public-interest research on indigent burials by helping turn scattered public records into a structured research dataset. The project sat at the edge of data engineering and social research, with an emphasis on feasibility, source coverage, and making messy public information usable for analysis.',

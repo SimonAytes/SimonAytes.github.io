@@ -28,6 +28,7 @@ export function ExperienceGrid() {
               type="button"
               onClick={() => setOpen(isOpen ? null : i)}
               aria-expanded={isOpen}
+              aria-controls="experience-panel"
               aria-label={item.company}
               className={`flex aspect-3/2 w-full items-center justify-center rounded-xl border bg-surface p-6 transition-colors ${
                 isOpen ? 'border-brand' : 'border-hairline hover:border-brand/40'
@@ -43,7 +44,10 @@ export function ExperienceGrid() {
             </button>
 
             {showPanel && active && (
-              <div className="col-span-full animate-in fade-in slide-in-from-top-2 rounded-xl border border-brand/40 bg-surface p-6 duration-300">
+              <div
+                id="experience-panel"
+                className="col-span-full animate-in fade-in slide-in-from-top-2 rounded-xl border border-brand/40 bg-surface p-6 duration-300"
+              >
                 <div className="flex items-baseline justify-between gap-4">
                   <div>
                     <h3 className="font-serif text-2xl text-text">{active.company}</h3>
@@ -53,7 +57,9 @@ export function ExperienceGrid() {
                   </div>
                   <span className="shrink-0 font-mono text-xs text-dim">{active.dates}</span>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-text/85">{active.narrative}</p>
+                <p className="mt-3 text-sm leading-relaxed text-pretty text-text/85">
+                  {active.narrative}
+                </p>
                 {active.highlights && (
                   <ul className="mt-4 grid gap-2 text-sm leading-relaxed text-text/80 sm:grid-cols-3">
                     {active.highlights.map((highlight) => (

@@ -77,19 +77,19 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </Link>
 
         <header className="mt-8">
-          <h1 className="font-serif text-4xl leading-tight font-medium text-text md:text-5xl">
+          <h1 className="text-balance font-serif text-4xl leading-tight font-medium text-text md:text-5xl">
             {meta.title}
           </h1>
           {metaLine && <p className="mt-3 font-mono text-xs tracking-wider text-dim">{metaLine}</p>}
           {meta.summary && (
-            <p className="mt-5 text-lg leading-relaxed text-text/80">{meta.summary}</p>
+            <p className="mt-5 text-lg leading-relaxed text-pretty text-text/80">{meta.summary}</p>
           )}
           {meta.github && (
             <a
               href={meta.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-bg transition hover:opacity-85"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-medium text-bg transition hover:opacity-90"
             >
               <svg
                 viewBox="0 0 98 96"

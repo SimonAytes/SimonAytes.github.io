@@ -86,6 +86,11 @@ body {
 .prose-site :where(h1, h2, h3, h4) {
   font-family: var(--font-serif);
   font-weight: 500;
+  text-wrap: balance;
+}
+
+.prose-site :where(p) {
+  text-wrap: pretty;
 }
 
 .prose-site :where(code):not(:where(pre *)) {

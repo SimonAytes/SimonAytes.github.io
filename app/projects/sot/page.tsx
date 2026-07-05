@@ -8,7 +8,7 @@ import { SITE_URL } from '@/lib/seo';
 
 const TITLE = 'Sketch-of-Thought Explorer';
 const DESCRIPTION =
-  'Explore cached prompts showing how Sketch-of-Thought (SoT) compresses LLM reasoning into conceptual sketches — cutting tokens by ~84% on average while maintaining accuracy.';
+  'Explore cached prompts showing how Sketch-of-Thought (SoT) compresses LLM reasoning into conceptual sketches, cutting tokens by ~84% on average while maintaining accuracy.';
 
 export const metadata: Metadata = {
   title: TITLE,
