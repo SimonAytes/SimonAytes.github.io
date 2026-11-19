@@ -6,7 +6,7 @@ describe('Hero', () => {
   it('renders the name and positioning', () => {
     render(<Hero />);
     expect(screen.getByRole('heading', { name: /simon aytes/i })).toBeInTheDocument();
-    expect(screen.getByText('AI & Forward-Deployed Engineering')).toBeInTheDocument();
+    expect(screen.getByText('AI Research Scientist')).toBeInTheDocument();
   });
 
   it('exposes a resume download link', () => {

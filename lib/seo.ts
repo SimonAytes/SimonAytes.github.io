@@ -16,7 +16,7 @@ export function personJsonLd() {
     name: site.name,
     url: SITE_URL,
     image: `${SITE_URL}${site.portrait.src}`,
-    jobTitle: 'AI & Forward-Deployed Engineer',
+    jobTitle: 'AI Research Scientist',
     description: site.intro,
     sameAs: socials.map((s) => s.href).filter((href) => href.startsWith('http')),
     alumniOf: education.map((e) => ({

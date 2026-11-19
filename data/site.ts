@@ -1,6 +1,6 @@
 export const site = {
   name: 'Simon Aytes',
-  positioning: 'AI & Forward-Deployed Engineering',
+  positioning: 'AI Research Scientist @ Slingshot Aerospace',
   intro:
     'I move quickly from rough ideas to working AI systems, then do the engineering needed to make them reliable. I work with stakeholders to turn business needs into technical direction, iterating quickly toward systems that can make it to production and stay there.',
   resumePath: '/files/simon-aytes-resume.pdf',

@@ -10,11 +10,27 @@ export type Experience = {
 };
 
 export const experience: Experience[] = [
+    {
+    company: 'Slingshot Aerospace',
+    logo: '/logos/slingshot.svg',
+    logo_mobile: '/logos/slingshot_mobile.svg',
+    dates: 'September 2026 - Present',
+    role: 'AI Research Scientist',
+    narrative:
+      'Slingshot Aerospace is the leader in Space Operations Intelligence & Autonomy (SOIA). My work spans sensing, simulation, and AI, empowering operators to decide and act with confidence.',
+    // highlights: [
+    //   'Designed an automated scraping and extraction pipeline for state and local records.',
+    //  'Helped assess the feasibility of a national database across jurisdictions.',
+    //  'Contributed analysis supporting a Population Association of America research abstract.',
+    //],
+    // url: 'https://www.york.cuny.edu/',
+    url: null,
+  },
   {
     company: 'Penta Group',
     logo: '/logos/penta.svg',
     logo_mobile: '/logos/penta_mobile.svg',
-    dates: '2021-2024, 2026-Present',
+    dates: '2021-2024, 2026',
     role: 'Senior Data Scientist / Data Scientist',
     narrative:
       'Penta is a global strategy and communications consultancy where my work has moved from client-facing NLP and media-intelligence systems into company-wide AI tooling. Across both stints, the common thread has been embedded engineering: understanding analyst workflows, finding the right technical shape for ambiguous needs, and shipping tools that hold up in live client delivery.',
@@ -89,20 +105,21 @@ export const experience: Experience[] = [
     // url: 'https://www.nasa.gov',
     url: null,
   },
-  {
-    company: 'York College, CUNY',
-    logo: '/logos/york.svg',
-    logo_mobile: '/logos/york_mobile.svg',
-    dates: 'May 2022-Oct 2022',
-    role: 'Researcher',
-    narrative:
-      'At York College, I supported public-interest research on indigent burials by helping turn scattered public records into a structured research dataset. The project sat at the edge of data engineering and social research, with an emphasis on feasibility, source coverage, and making messy public information usable for analysis.',
-    highlights: [
-      'Designed an automated scraping and extraction pipeline for state and local records.',
-      'Helped assess the feasibility of a national database across jurisdictions.',
-      'Contributed analysis supporting a Population Association of America research abstract.',
-    ],
-    // url: 'https://www.york.cuny.edu/',
-    url: null,
-  },
+  // REMOVED on 2026-11-19 to replace with Slingshot Experience
+  // {
+  //   company: 'York College, CUNY',
+  //   logo: '/logos/york.svg',
+  //   logo_mobile: '/logos/york_mobile.svg',
+  //   dates: 'May 2022-Oct 2022',
+  //   role: 'Researcher',
+  //   narrative:
+  //     'At York College, I supported public-interest research on indigent burials by helping turn scattered public records into a structured research dataset. The project sat at the edge of data engineering and social research, with an emphasis on feasibility, source coverage, and making messy public information usable for analysis.',
+  //   highlights: [
+  //     'Designed an automated scraping and extraction pipeline for state and local records.',
+  //     'Helped assess the feasibility of a national database across jurisdictions.',
+  //     'Contributed analysis supporting a Population Association of America research abstract.',
+  //   ],
+  //   // url: 'https://www.york.cuny.edu/',
+  //   url: null,
+  // },
 ];
